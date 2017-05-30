@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <title>{% block title %}{% endblock %} - Fun Money</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+      {% block footer %}
+      <br />
+      &copy; Copyright 2017 by <a href="https://github.com/eqmvii">Eric</a> and <a href="https://github.com/lianagitsit">Liana</a>.
+      {% endblock %}
+    </div>
+  </body>
+</html>
