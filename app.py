@@ -78,22 +78,56 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        session['username'] = request.form['username']
-        return redirect(url_for('index'))
+
+        password = request.form['password']
+        username = request.form['username']
+
+        if not username:
+            apology = "username required"
+            return render_template('apology.html', apology=apology)
+        
+        if not password:
+            apology = "password required"
+            return render_template('apology.html', apology=apology)
+
+        user = Users.query.filter_by(username=username).first()
+        if user is None:
+            apology = "you need to register!"
+            return render_template('apology.html', apology=apology)
+            
+        else:
+            confirmpassword = (Users.query.filter_by(username=username).first()).password
+            if password != confirmpassword:
+                apology = "incorrect password"
+                return render_template('apology.html', apology=apology)
+        
+            else:
+                session['username'] = username
+                return redirect(url_for('index'))
+
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
 
-        user = Users.query.filter_by(username=request.form['username']).first()
-        print(user)
+        username = request.form['username']
+        password = request.form['password']
 
+        if not username:
+            apology = "username required to register"
+            return render_template('apology.html', apology=apology)
+
+        if not password:
+            apology = "password required to register"
+            return render_template('apology.html', apology=apology)
+
+        user = Users.query.filter_by(username=username).first()
         if user is None:
-            print("Username not in database, adding...")
             newuser = Users(request.form['username'], request.form['password'])
             db.session.add(newuser)
             db.session.commit()
+            session['username'] = request.form['username']
             return redirect(url_for('index'))
 
         else:

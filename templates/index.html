@@ -1,20 +1,21 @@
-
-{% extends "layout.html" %}
-
-{% block title %} 
-    Index
-{% endblock %}
-
-{% block content %}
+ {% extends "layout.html" %} {% block title %} Index {% endblock %} {% block content %}
+<div class="jumbotron text-center">
     <h1>You logged in!</h1>
-    <p>Buenos dias, {{current_user.username}}</p>
-    <p>You have ${{current_user.cash}} in cold, hard, poorly-formatted cash.</p>
-    <br />
-    <a href="/buy">Buy stock</a>
-    <br />
-    <a href="/sell">Sell stock</a>
-    <br />
-    <br />
-    <a href="/logout">Log out</a>
-    <br />
+</div>
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <p>Buenos dias, {{current_user.username}}</p>
+        <p>You have ${{current_user.cash}} in cold, hard, poorly-formatted cash.</p>
+        <br />
+        <a href="/buy">Buy stock</a>
+        <br />
+        <a href="/sell">Sell stock</a>
+        <br />
+        <br />
+        <a href="/logout">Log out</a>
+        <br />
+    </div>
+    <div class="col-sm-4"></div>
+</div>
 {% endblock %}
