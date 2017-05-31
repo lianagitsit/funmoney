@@ -6,15 +6,25 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Sell</h1>
+    <div class="jumbotron text-center"><h1>Sell</h1></div>
+
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
 
     <form method="post">
-        </p><input type=text name=ticker placeholder="stock symbol"></p>
-        </p><input type=number name=shares placeholder="# shares"></p>
-        <P><input type=submit value=Sell></p>
+        </p><input class="form-control" type=text name=ticker placeholder="stock symbol"></p>
+        </p><input class="form-control" type=number name=shares placeholder="# shares"></p>
+        <P><input class="btn btn-primary" type=submit value=Buy></p>
     </form>
     <br />
     <br />
     <a href="/">Home</a>
+
+    </div>
+
+    <div class="col-sm-4"></div>
+
+    </div>
 
 {% endblock %}

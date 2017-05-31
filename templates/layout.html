@@ -1,17 +1,41 @@
 <!doctype html>
 <html>
-  <head>
-    {% block head %}
-    <title>{% block title %}{% endblock %} - Fun Money</title>
-    {% endblock %}
-  </head>
-  <body>
-    <div id="content">{% block content %}{% endblock %}</div>
-    <div id="footer">
-      {% block footer %}
-      <br />
-      &copy; Copyright 2017 by <a href="https://github.com/eqmvii">Eric</a> and <a href="https://github.com/lianagitsit">Liana</a>.
-      {% endblock %}
+
+<head>
+  {% block head %}
+  <title>{% block title %}{% endblock %} - Fun Money</title>
+  <!-- Local bootstrap from 5/31/2017 -->
+  <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" type="text/css" href="static/styles.css?version=1"> {% endblock %}
+</head>
+
+<body>
+  {% block content %}{% endblock %}
+
+  <div class="row" id="footer">
+    {% block footer %}
+    <br />
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+      <p>&copy; Copyright 2017 by <a href="https://github.com/eqmvii">Eric</a> and <a href="https://github.com/lianagitsit">Liana</a></p>
+      <h3>Mini-Nav</h3>
+      <ul>
+        <li><a href="http://127.0.0.1:5000">Home</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <li><a href="/register">Register</a></li>
+        <li><a href="/quote">Quote</a></li>
+        <li><a href="/buy">Buy</a></li>
+        <li><a href="/sell">Sell</a></li>
+        <li><a href="/history">History</a></li>
+      </ul>
     </div>
-  </body>
+    <div class="col-sm-4"></div>
+    {% endblock %}
+  </div>
+
+
+</body>
+
 </html>

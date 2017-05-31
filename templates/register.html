@@ -1,17 +1,21 @@
+ {% extends "layout.html" %} {% block title %} Register! {% endblock %} {% block content %}
 
-{% extends "layout.html" %}
-
-{% block title %} 
-    Register!
-{% endblock %}
-
-{% block content %}
-
+<div class="jumbotron text-center">
     <h1>Register for FunMoney</h1>
-    <form method="post">
-        <p><input type=text name=username placeholder="username"></p>
-        <p><input type=text name=password placeholder="password"></p>
-        <p><input type=submit value=Register></p>
-    </form>
+</div>
+<div class="row">
+
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <form method="post">
+            <p><input class="form-control" type=text name=username placeholder="username"></p>
+            <p><input class="form-control" type=password name=password placeholder="password"></p>
+            <p><input class="btn btn-primary" type=submit value=Register></p>
+        </form>
+    </div>
+
+    <div class="col-sm-4"></div>
+
+</div>
 
 {% endblock %}
