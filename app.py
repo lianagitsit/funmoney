@@ -3,6 +3,25 @@ from flask import Flask, render_template, redirect, url_for, session, escape, re
 from flask_sqlalchemy import SQLAlchemy
 import os
 
+# ---Start of Eric Work---
+# import the quote and other helper functions
+import helperfunctions
+
+# Save the module in a more friendly way for later use
+get_quote = helperfunctions.get_quote
+
+print("-------------Begin Quote Testing-------------")
+test_quote = get_quote("AAPL")
+if (test_quote):
+    print (test_quote)
+else:
+    print("Failed to retrieve a quote")
+print("-------End of Quote Testing-------------")
+
+# ---End of Eric Work---
+
+
+
 POSTGRES = {
     'user': 'postgres',
     'pw': 'password',
@@ -45,6 +64,7 @@ class Users(db.Model):
 
     def __repr__(self):
         return '<User: %r>' % self.username
+        
 
 
 @app.route('/')
