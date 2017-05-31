@@ -46,6 +46,7 @@ class Users(db.Model):
     def __repr__(self):
         return '<User: %r>' % self.username
 
+
 @app.route('/')
 def index():
     if 'username' in session:
@@ -64,16 +65,42 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        session['username'] = request.form['username']
-        newuser = Users(request.form['username'], request.form['password'])
-        db.session.add(newuser)
-        db.session.commit()
-        return redirect(url_for('index'))
+
+        user = Users.query.filter_by(username=request.form['username']).first()
+        print(user)
+
+        if user is None:
+            print("Username not in database, adding...")
+            newuser = Users(request.form['username'], request.form['password'])
+            db.session.add(newuser)
+            db.session.commit()
+            return redirect(url_for('index'))
+
+        else:
+            apology = "username taken"
+            return render_template('apology.html', apology=apology)
+    
     return render_template('register.html')
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
+
+@app.route('/buy')
+def buy():
+    return render_template('buy.html')
+
+@app.route('/sell')
+def sell():
+    return render_template('sell.html')
+
+@app.route('/history')
+def history():
+    return render_template('history.html')
+
+@app.route('/quote')
+def quote():
+    return render_template('quote.html')
 
 app.secret_key = 'A0Za98j/3yX R~XHH!jmN]LWX/,?RT'

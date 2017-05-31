@@ -2,13 +2,12 @@
 {% extends "layout.html" %}
 
 {% block title %} 
-    Index
+    History
 {% endblock %}
 
 {% block content %}
-    <h1>You logged in!</h1>
-    <p>Buenos dias, {{current_user.username}}</p>
-    <p>You have ${{current_user.cash}} in cold, hard, poorly-formatted cash.</p>
+    <h1>Your Transaction History</h1>
+    <p>These are all of your transactions.</p>
     <br />
     <a href="/buy">Buy stock</a>
     <br />
