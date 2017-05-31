@@ -100,7 +100,8 @@ def register():
             apology = "username taken"
             return render_template('apology.html', apology=apology)
     
-    return render_template('register.html')
+    if request.method == 'GET':
+        return render_template('register.html')
 
 @app.route('/logout')
 def logout():
