@@ -1,6 +1,7 @@
 
 from flask import Flask, render_template, redirect, url_for, session, escape, request
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 POSTGRES = {
     'user': 'postgres',
@@ -11,9 +12,23 @@ POSTGRES = {
 }
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
-%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
+# %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
+
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://lianamancini:n0w a butterfly*@localhost/yournewdb'
+
+# If running locally, use local DB. If running on heroku, use its DB.
+if (os.environ.get('DATABASE_URL') is None):
+    print("Heyo! No database URL!")
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
+%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
+else:
+    print("Using heroku DBURL lolollll this will totally work")
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+
+
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
