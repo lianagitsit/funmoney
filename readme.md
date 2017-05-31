@@ -92,8 +92,11 @@ heroku login
 heroku create [appname]
 
 
-
 (3) Push to heroku
+
+git add *
+
+git commit -m "version to deploy to heroku"
 
 git push heroku master
 
@@ -115,13 +118,15 @@ If you just cloned an ap and want it to run locally, use pip install -r requirem
 
 heroku addons:create heroku-postgresql:hobby-dev
 
+(mine this time) postgresql-closed-41978
+
 To establish a remote session witgh the DB:
 
 heroku pg:psql
 
 The ultimate copy shenanigan:
 
-PGUSER=postgres PGPASSWORD=password heroku pg:push funmoney postgresql-sinuous-57240 --app funmoneytest
+PGUSER=postgres PGPASSWORD=password heroku pg:push funmoney postgresql-closed-41978 --app funmoney
 
 ^ THAT WILL WORK ^ 
 
