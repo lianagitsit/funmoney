@@ -1,19 +1,12 @@
-
-{% extends "layout.html" %}
-
-{% block title %} 
-    History
-{% endblock %}
-
-{% block content %}
-    <h1>Your Transaction History</h1>
-    <p>These are all of your transactions.</p>
-    <br />
-    <a href="/buy">Buy stock</a>
-    <br />
-    <a href="/sell">Sell stock</a>
-    <br />
-    <br />
-    <a href="/logout">Log out</a>
-    <br />
+ {% extends "layout.html" %} {% block title %} History {% endblock %} {% block content %}
+<div class="jumbotron text-center">
+    <h1>Transaction History</h1>
+</div>
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <p>Your transaction history will appear here!</p>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
 {% endblock %}

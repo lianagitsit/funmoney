@@ -1,18 +1,33 @@
+ {% extends "layout.html" %} {% block title %} Login! {% endblock %} {% block content %}
+<div class="jumbotron text-center">
+    <h1>Login to FunMoney
+        <h1>
+</div>
+<div class="row">
 
-{% extends "layout.html" %}
+    <div class="col-sm-4">
+    </div>
 
-{% block title %} 
-    Login!
-{% endblock %}
+    <div class="col-sm-4">
+        <form method="post">
+            <input class="form-control" type=text name=username placeholder="Enter username">
+            <input class="form-control" type=password name=password placeholder="Enter password">
+            <input type=submit value=Login class="btn btn-primary">
+        </form>
+    </div>
 
-{% block content %}
-    <h1>Login to FunMoney</h1>
+    <div class="col-sm-4">
+    </div>
+</div>
 
-    <form method="post">
-        <input type=text name=username placeholder="username">
-        <input type=text name=password placeholder="password">
-        <input type=submit value=Login>
-    </form>
+<div class="row">
+    <div class="col-sm-4">
+    </div>
+    <div class="col-sm-4">
 
-    <a href="/register">Register an account.</a>
+        <a href="/register">Register New Account</a>
+        <div class="col-sm-4">
+        </div>
+    </div>
+</div>
 {% endblock %}
