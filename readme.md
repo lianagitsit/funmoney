@@ -1,8 +1,10 @@
-To start virtual environment, use command:
+==========Startup Instructions==========
+
+> To start virtual environment:
 
 . venv/bin/activate
 
-To start debug mode:
+> To start flask in debug mode:
 
 export FLASK_APP=app.py 
 
@@ -10,11 +12,12 @@ export FLASK_DEBUG=1
 
 flask run
 
-To exit:
+> To exit:
 
 venv deactivate
 
-- - - - - Eric tips for Heroku etc. -- - - - - -
+
+=========Eric tips for Heroku etc.==========
 
 (0) Install virtualenv
 
@@ -24,7 +27,7 @@ virtualenv venv
 
 Turn on the virtual env (below)
 
-Install Flask and dependencies:
+Install Flask and dependencies WITH VENV ON:
 
 pip install Flask
 
@@ -39,8 +42,10 @@ pip install psycopg2
 (0.7) Import DB to create all after running python
 
 (ensure virtual environment is started)
->>> from yourapplication import db
->>> db.create_all()
+
+from yourapplication import db
+
+db.create_all()
 
 
 (1) Turn on the virtual environment:

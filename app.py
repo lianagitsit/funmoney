@@ -11,16 +11,16 @@ import helperfunctions
 # Save the module in a more friendly way for later use
 get_quote = helperfunctions.get_quote
 
-print("-------------Begin Quote Testing-------------")
-test_quote = get_quote("AAPL")
-if (test_quote):
-    print (test_quote)
-else:
-    print("Failed to retrieve a quote")
-print("-------End of Quote Testing-------------")
-
+# print("-------------Begin Quote Testing-------------")
+# test_quote = get_quote("AAPL")
+# if (test_quote):
+#     print (test_quote)
+# else:
+#     print("Failed to retrieve a quote")
+# print("-------End of Quote Testing-------------")
 # ---End of Eric Work---
 
+# Secret key used for sessions
 
 
 POSTGRES = {
@@ -40,17 +40,18 @@ app = Flask(__name__)
 
 # If running locally, use local DB. If running on heroku, use its DB.
 if (os.environ.get('DATABASE_URL') is None):
-    print("Heyo! No database URL!")
+    # print("Heyo! No database URL!")
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 else:
-    print("Using heroku DBURL lolollll this will totally work")
+    # print("Using heroku DBURL lolollll this will totally work")
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-
-
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+app.secret_key = 'A0Za98j/3yX R~XHH!jmN]LWX/,?RT'
+
+#TODO: Move database schema classes into a separate .py file
 
 class Users(db.Model):
     __tablename__ = 'Users'
@@ -112,11 +113,26 @@ class Transactions(db.Model):
 @app.route('/')
 def index():
     if 'username' in session:
+        # Get all of the user's stocks
         current_user = Users.query.filter_by(username=escape(session['username'])).first()
         my_portfolio = Portfolio.query.filter_by(user_id=current_user.id)
-        # return 'Logged in as %s' % escape(session['username'])
-        return render_template('index.html', current_user=current_user, my_portfolio=my_portfolio)
+        portfolio_dict_list = []
+        # Get current share prices and values for all of user's stocks
+        for stock in my_portfolio:
+            portfolio_dict_list.append(stock.__dict__)
+        for stock in portfolio_dict_list:
+            stock["price"] = get_quote(stock["stock_ticker"])["price"]
+        stock_total = get_stock_total(my_portfolio)
+        return render_template('index.html', current_user=current_user, my_portfolio=portfolio_dict_list, stock_total=stock_total)
     return redirect(url_for('login'))
+
+def get_stock_total(portfolio):
+    total = 0
+    portfolio_dict_list = []
+    # Get current share prices and values for all stocks
+    for stock in portfolio:
+        total += (stock.shares * get_quote(stock.stock_ticker)["price"])
+    return total
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -187,6 +203,9 @@ def logout():
 
 @app.route('/buy', methods=['GET', 'POST'])
 def buy():
+    # Return an error if not logged in
+    if 'username' not in session:
+        return redirect(url_for('login'))
     # check request method - if post:
     if request.method == 'POST':
         # ensure ticker and shares filled in
@@ -221,10 +240,10 @@ def buy():
         db.session.commit()
 
         # check if stock in Portfolio then add or update Portfolio
-        print("User id to filter: " + str(user.id))
-        print("Stock ticker to filter: " + ticker)
+        # print("User id to filter: " + str(user.id))
+        # print("Stock ticker to filter: " + ticker)
         mystock = Portfolio.query.filter_by(user_id=user.id).filter_by(stock_ticker=ticker).first()
-        print("Mystock is: " + str(mystock))
+        # print("Mystock is: " + str(mystock))
         # stock not in portfolio, create new entry
         if mystock is None:
             newstock = Portfolio(user.id, buyquote["ticker"], buyquote["name"], shares)
@@ -243,21 +262,34 @@ def buy():
 
 @app.route('/sell')
 def sell():
+    # Return an error if not logged in
+    if 'username' not in session:
+        return redirect(url_for('login'))
     return render_template('sell.html')
 
 @app.route('/history')
 def history():
+    # Return an error if not logged in
+    if 'username' not in session:
+        return redirect(url_for('login'))
     current_user = Users.query.filter_by(username=escape(session['username'])).first()
     transactions = Transactions.query.filter_by(user_id=current_user.id).all()
-    print(transactions)
-    return render_template('history.html', transactions=transactions)
+    trans_dict_list = []
+    for trans in transactions:
+            trans_dict_list.append(trans.__dict__)
+    for trans in trans_dict_list:
+            trans["price"] = get_quote(trans["stock_ticker"])["price"]
+    # print(transactions)
+    return render_template('history.html', transactions=trans_dict_list)
 
 @app.route('/quote', methods=['GET', 'POST'])
 def quote():
+    # Return an error if not logged in
+    if 'username' not in session:
+        return redirect(url_for('login'))
     if request.method == 'POST':
         userticker = request.form['ticker']
         userquote = get_quote(userticker)
         return render_template('quoted.html', userquote=userquote)
     return render_template('quote.html')
 
-app.secret_key = 'A0Za98j/3yX R~XHH!jmN]LWX/,?RT'

@@ -2,15 +2,24 @@
 {% extends "layout.html" %}
 
 {% block title %} 
-    Apology
+    Error
 {% endblock %}
 
 {% block content %}
-    <h1>Apology</h1>
+<div class="jumbotron text-center">
+    <h1>Error</h1>
+    </div>
 
-    <p>Sorry, {{apology}}</p>
-    <br />
-    <br />
-    <a href="/">Home</a>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+        <div class="alert alert-danger" role="alert">
+            <h3>{{apology}}</h3>
+        </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+
+
 
 {% endblock %}
