@@ -1,6 +1,14 @@
- {% extends "layout.html" %} {% block title %} Index {% endblock %} {% block content %}
+ {% extends "layout.html" %} 
+ 
+ {% block title %} Index {% endblock %} 
+
+ {% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
+
+ 
+ {% block content %} 
 <div class="jumbotron text-center">
-    <h1>FunMoney</h1>
+    <h1>Fun Money</h1>
+    <h3>Fantasy Stock Portfolios</h3>
 </div>
 <div class="col-sm-4"></div>
 <div class="row">

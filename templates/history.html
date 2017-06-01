@@ -1,4 +1,13 @@
- {% extends "layout.html" %} {% block title %} History {% endblock %} {% block content %}
+{% extends "layout.html" %} 
+ 
+{% block title %} History {% endblock %} 
+
+{% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
+
+
+{% block content %}
+
+
 <div class="jumbotron text-center">
     <h1>Transaction History</h1>
 </div>

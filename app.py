@@ -22,7 +22,6 @@ get_quote = helperfunctions.get_quote
 
 # Secret key used for sessions
 
-
 POSTGRES = {
     'user': 'postgres',
     'pw': 'password',
@@ -151,7 +150,7 @@ def login():
 
         user = Users.query.filter_by(username=username).first()
         if user is None:
-            apology = "you need to register!"
+            apology = 'you need to Register!'
             return render_template('apology.html', apology=apology)
             
         else:
@@ -290,6 +289,6 @@ def quote():
     if request.method == 'POST':
         userticker = request.form['ticker']
         userquote = get_quote(userticker)
-        return render_template('quoted.html', userquote=userquote)
-    return render_template('quote.html')
+        return render_template('quote.html', userquote=userquote)
+    return render_template('quote.html', userquote=None)
 
