@@ -2,6 +2,7 @@
 from flask import Flask, render_template, redirect, url_for, session, escape, request
 from flask_sqlalchemy import SQLAlchemy
 import os
+from datetime import datetime
 
 # ---Start of Eric Work---
 # import the quote and other helper functions
@@ -52,27 +53,69 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class Users(db.Model):
+    __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(120))
     cash = db.Column(db.Integer)
+    # TODO: set to float
 
     def __init__(self, username, password):
         self.username = username
         self.password = password
         self.cash = 10000
 
+    # TODO: why is this here?
     def __repr__(self):
         return '<User: %r>' % self.username
-        
 
+class Portfolio(db.Model):
+    __tablename__ = 'Portfolio'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    stock_name = db.Column(db.String(80))
+    stock_ticker = db.Column(db.String(80))
+    shares = db.Column(db.Integer)
+
+    def __init__(self, user_id, stock_ticker, stock_name, shares):
+        self.user_id = user_id
+        self.stock_ticker = stock_ticker
+        self.stock_name = stock_name
+        self.shares = shares
+
+    # TODO: why is this here?
+    def __repr__(self):
+        return '<User: %r>' % self.user_id
+
+class Transactions(db.Model):
+    __tablename__ = 'Transactions'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    stock_name = db.Column(db.String(80))
+    stock_ticker = db.Column(db.String(80))
+    price = db.Column(db.Float)
+    shares = db.Column(db.Integer)
+    timestamp = db.Column(db.DateTime())
+
+    def __init__(self, user_id, stock_name, stock_ticker, price, shares):
+        self.user_id = user_id
+        self.stock_name = stock_name
+        self.stock_ticker = stock_ticker
+        self.price = price
+        self.shares = shares
+        self.timestamp = datetime.utcnow()
+
+    # TODO: why is this here?
+    def __repr__(self):
+        return '<User: %r>' % self.user_id
 
 @app.route('/')
 def index():
     if 'username' in session:
         current_user = Users.query.filter_by(username=escape(session['username'])).first()
+        my_portfolio = Portfolio.query.filter_by(user_id=current_user.id)
         # return 'Logged in as %s' % escape(session['username'])
-        return render_template('index.html', current_user=current_user)
+        return render_template('index.html', current_user=current_user, my_portfolio=my_portfolio)
     return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -142,8 +185,60 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
-@app.route('/buy')
+@app.route('/buy', methods=['GET', 'POST'])
 def buy():
+    # check request method - if post:
+    if request.method == 'POST':
+        # ensure ticker and shares filled in
+        ticker = request.form['ticker'].upper()
+        shares = request.form['shares']
+
+        if not ticker:
+            apology = "stock ticker required"
+            return render_template('apology.html', apology=apology)
+        if not shares:
+            apology = "number of shares required"
+            return render_template('apology.html', apology=apology)
+        
+        # calculate proposed trans value
+        buyquote = get_quote(ticker)
+        cost = buyquote["price"] * int(shares)
+
+        # get user's cash and compare
+        user = Users.query.filter_by(username=session['username']).first()
+        if cost > user.cash:
+            apology = "not enough cash"
+            return render_template('apology.html', apology=apology)
+
+        # update cash value in Users
+        user.cash -= cost
+        db.session.add(user)
+        db.session.commit()
+
+        # add trans to Transactions
+        transaction = Transactions(user.id, buyquote["name"], buyquote["ticker"], buyquote["price"], shares)
+        db.session.add(transaction)
+        db.session.commit()
+
+        # check if stock in Portfolio then add or update Portfolio
+        print("User id to filter: " + str(user.id))
+        print("Stock ticker to filter: " + ticker)
+        mystock = Portfolio.query.filter_by(user_id=user.id).filter_by(stock_ticker=ticker).first()
+        print("Mystock is: " + str(mystock))
+        # stock not in portfolio, create new entry
+        if mystock is None:
+            newstock = Portfolio(user.id, buyquote["ticker"], buyquote["name"], shares)
+            db.session.add(newstock)
+            db.session.commit()
+        # stock in portfolio, update entry
+        else:
+            mystock.shares += int(shares)
+            db.session.add(mystock)
+            db.session.commit()
+
+        # return index
+        return redirect(url_for('index'))
+    # if method = get:
     return render_template('buy.html')
 
 @app.route('/sell')
@@ -152,10 +247,17 @@ def sell():
 
 @app.route('/history')
 def history():
-    return render_template('history.html')
+    current_user = Users.query.filter_by(username=escape(session['username'])).first()
+    transactions = Transactions.query.filter_by(user_id=current_user.id).all()
+    print(transactions)
+    return render_template('history.html', transactions=transactions)
 
-@app.route('/quote')
+@app.route('/quote', methods=['GET', 'POST'])
 def quote():
+    if request.method == 'POST':
+        userticker = request.form['ticker']
+        userquote = get_quote(userticker)
+        return render_template('quoted.html', userquote=userquote)
     return render_template('quote.html')
 
 app.secret_key = 'A0Za98j/3yX R~XHH!jmN]LWX/,?RT'

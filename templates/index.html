@@ -8,6 +8,11 @@
         <p>Buenos dias, {{current_user.username}}</p>
         <p>You have ${{current_user.cash}} in cold, hard, poorly-formatted cash.</p>
         <br />
+        <ul>
+         {% for stock in my_portfolio %}
+         <li>User ID: {{stock.user_id}}. Stock Name: {{stock.stock_name}}. Stock Ticker: {{stock.stock_ticker}}. Shares: {{stock.shares}}.</li>
+        {% endfor %}
+        </ul>
         <a href="/buy">Buy stock</a>
         <br />
         <a href="/sell">Sell stock</a>

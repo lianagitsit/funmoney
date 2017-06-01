@@ -12,6 +12,7 @@ with open('tickers.json') as data_file:
 quandl.ApiConfig.api_key = "1KpUKQyWwNyxFK1Er6pq"
 
 def get_quote(ticker):
+    ticker = ticker.upper()
     stock_name = None
     for stock in tickers:
         if stock["Ticker"] == ticker:

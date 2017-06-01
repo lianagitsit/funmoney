@@ -5,7 +5,12 @@
 <div class="row">
     <div class="col-sm-4"></div>
     <div class="col-sm-4">
-        <p>Your transaction history will appear here!</p>
+        <p>Your transaction history:</p>
+        <ol>
+         {% for transaction in transactions %}
+         <li>User ID: {{transaction.user_id}}. Stock Name: {{transaction.stock_name}}. Stock Ticker: {{transaction.stock_ticker}}. Price: {{transaction.price}}. Shares: {{transaction.shares}}. Time: {{transaction.timestamp}}</li>
+        {% endfor %}
+        </ol>
     </div>
     <div class="col-sm-4"></div>
 </div>
