@@ -3,6 +3,7 @@ from flask import Flask, render_template, redirect, url_for, session, escape, re
 from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # ---Start of Eric Work---
 # import the quote and other helper functions
@@ -57,8 +58,7 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(120))
-    cash = db.Column(db.Integer)
-    # TODO: set to float
+    cash = db.Column(db.Float)
 
     def __init__(self, username, password):
         self.username = username
@@ -114,6 +114,9 @@ def index():
     if 'username' in session:
         # Get all of the user's stocks
         current_user = Users.query.filter_by(username=escape(session['username'])).first()
+        # Safeguard against bugs
+        if current_user is None:
+                return redirect(url_for('login'))
         my_portfolio = Portfolio.query.filter_by(user_id=current_user.id)
         portfolio_dict_list = []
         # Get current share prices and values for all of user's stocks
@@ -154,13 +157,15 @@ def login():
             return render_template('apology.html', apology=apology)
             
         else:
-            confirmpassword = (Users.query.filter_by(username=username).first()).password
-            if password != confirmpassword:
+            if check_password_hash(user.password, password) == False:
+            #confirmpassword = (Users.query.filter_by(username=username).first()).password
+            #if password != confirmpassword:
                 apology = "incorrect password"
                 return render_template('apology.html', apology=apology)
         
             else:
                 session['username'] = username
+                print("logged in when you shouldn't have")
                 return redirect(url_for('index'))
 
     return render_template('login.html')
@@ -182,7 +187,8 @@ def register():
 
         user = Users.query.filter_by(username=username).first()
         if user is None:
-            newuser = Users(request.form['username'], request.form['password'])
+            hashedpass = generate_password_hash(password)
+            newuser = Users(request.form['username'], hashedpass)
             db.session.add(newuser)
             db.session.commit()
             session['username'] = request.form['username']
@@ -259,13 +265,12 @@ def buy():
     # if method = get:
     return render_template('buy.html')
 
-@app.route('/sell')
+@app.route('/sell', methods=['GET', 'POST'])
 def sell():
 
     # Return an error if not logged in
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template('sell.html')
 
      # check request method - if post:
     if request.method == 'POST':
@@ -281,27 +286,47 @@ def sell():
             return render_template('apology.html', apology=apology)
         
         # calculate proposed trans value       
-        buyquote = get_quote(ticker)
-        cost = buyquote["price"] * int(shares)
- 
+        sellquote = get_quote(ticker)
+        cost = sellquote["price"] * int(shares)
+        print(cost)
+        
+        user = Users.query.filter_by(username=session['username']).first()
         mystock = Portfolio.query.filter_by(user_id=user.id).filter_by(stock_ticker=ticker).first()
-        # stock not in portfolio, render apology
+        
+        # stock not in portfolio
         if mystock is None:
             apology = "you do not own this stock"
             return render_template('apology.html', apology=apology)
+        
+        # shares entered greater than shares owned
+        if int(shares) > mystock.shares:
+            apology = "you don't own enough shares to sell"
+            return render_template('apology.html', apology=apology)
+    
         # stock in portfolio, update entry
         else:
             mystock.shares -= int(shares)
-            db.session.add(mystock)
-            db.session.commit()
-
-        # subtract shares from Portfolio
             # if total shares = 0, remove stock from Portfolio
+            if mystock.shares == 0:
+                db.session.delete(mystock)
+                db.session.commit()
+            else:
+                db.session.add(mystock)
+                db.session.commit()
+
         # add to cash value in Users
+        user.cash += cost
+        db.session.add(user)
+        db.session.commit()
+
         # add negative trans to Transactions
+        transaction = Transactions(user.id, sellquote["name"], sellquote["ticker"], sellquote["price"], -int(shares))
+        db.session.add(transaction)
+        db.session.commit()
+
         # return portfolio
         return redirect(url_for('index'))
-    
+
     # if method = get:
     if request.method == 'GET':
         return render_template('sell.html')

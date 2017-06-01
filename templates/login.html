@@ -1,7 +1,6 @@
  {% extends "layout.html" %} {% block title %} Login! {% endblock %} {% block content %}
 <div class="jumbotron text-center">
-    <h1>Login to FunMoney
-        <h1>
+    <h1>Login to FunMoney</h1>
 </div>
 <div class="row">
 
@@ -10,22 +9,28 @@
 
     <div class="col-sm-4">
         <form method="post">
-            <input class="form-control" type=text name=username placeholder="Enter username">
+            <div class="form-group">
+                <label for="loginusername">Username</label>
+            <input class="form-control" type=text name=username placeholder="Enter username" id="loginusername">
+            </div>
+            <div class="form-group">
+            <label for="loginpassword">Password</label>
             <input class="form-control" type=password name=password placeholder="Enter password">
+            </div>
             <input type=submit value=Login class="btn btn-primary">
+            
         </form>
     </div>
 
     <div class="col-sm-4">
     </div>
 </div>
-
+<br />
 <div class="row">
-    <div class="col-sm-4">
-    </div>
+    <div class="col-sm-4"></div>
     <div class="col-sm-4">
 
-        <a href="/register">Register New Account</a>
+        <a href="/register"><button class="btn btn-success btn-lg">Register New Account</button></a>
         <div class="col-sm-4">
         </div>
     </div>

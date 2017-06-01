@@ -16,7 +16,6 @@
     <div class="col-sm-8">
                 {% if transactions %}
         <h2>Stock Transactions</h2>
-
         <table class="table table-striped">
             <tr>
                 <th>Stock</th>
@@ -24,7 +23,7 @@
                 <th>Shares</th>
                 <th>Share Price</th>
                 <th>Total Value</th>
-                <th>Date</th>
+                <th>Transaction Date</th>
             </tr>
             {% for trans in transactions %}
             <tr>
@@ -32,8 +31,8 @@
                 <td>{{trans.stock_ticker}}</td>
                 <td>{{trans.shares}}</td>
                 <td>{{"${:,.2f}".format(trans.price)}}</td>
-                <td>{{"${:,.2f}".format(trans.price * trans.shares)}}</td>
-                <td>{{trans.timestamp}}</td>
+                <td>{{"${:,.2f}".format(trans.price * trans.shares|abs())}}</td>
+                <td>{{trans.timestamp.month}}/{{trans.timestamp.day}}/{{trans.timestamp.year}}</td>
             </tr>
             {% endfor %}
         </table>
