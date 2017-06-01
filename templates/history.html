@@ -1,17 +1,48 @@
- {% extends "layout.html" %} {% block title %} History {% endblock %} {% block content %}
+{% extends "layout.html" %} 
+ 
+{% block title %} History {% endblock %} 
+
+{% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
+
+
+{% block content %}
+
+
 <div class="jumbotron text-center">
     <h1>Transaction History</h1>
 </div>
 <div class="row">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-4">
-        <p>Your transaction history:</p>
-        <ol>
-         {% for transaction in transactions %}
-         <li>User ID: {{transaction.user_id}}. Stock Name: {{transaction.stock_name}}. Stock Ticker: {{transaction.stock_ticker}}. Price: {{transaction.price}}. Shares: {{transaction.shares}}. Time: {{transaction.timestamp}}</li>
-        {% endfor %}
-        </ol>
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+                {% if transactions %}
+        <h2>Stock Transactions</h2>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Stock</th>
+                <th>Ticker</th>
+                <th>Shares</th>
+                <th>Share Price</th>
+                <th>Total Value</th>
+                <th>Date</th>
+            </tr>
+            {% for trans in transactions %}
+            <tr>
+                <td>{{trans.stock_name}}</td>
+                <td>{{trans.stock_ticker}}</td>
+                <td>{{trans.shares}}</td>
+                <td>{{"${:,.2f}".format(trans.price)}}</td>
+                <td>{{"${:,.2f}".format(trans.price * trans.shares)}}</td>
+                <td>{{trans.timestamp}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+      
+        {% else %}
+        <br />
+        <h3 class="text-center">No stock transactions yet. Go buy some stocks!</h3>
+        <br / >{% endif %}
     </div>
-    <div class="col-sm-4"></div>
+    <div class="col-sm-2"></div>
 </div>
 {% endblock %}

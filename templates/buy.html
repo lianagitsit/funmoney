@@ -1,30 +1,30 @@
+ {% extends "layout.html" %} 
+ {% block title %} Buy Stock {% endblock %} 
 
-{% extends "layout.html" %}
+ {% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
 
-{% block title %} 
-    Buy Stock
-{% endblock %}
+ {% block content %}
+<div class="jumbotron text-center">
+    <h1>Buy Stocks</h1>
+</div>
 
-{% block content %}
-    <div class="jumbotron text-center"><h1>Buy</h1></div>
+<div class="row">
+    <div class="col-sm-4"></div>
 
-    <div class="row">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4">
-
-    <form method="post">
-        </p><input class="form-control" type=text name=ticker placeholder="stock symbol"></p>
-        </p><input class="form-control" type=number name=shares placeholder="# shares"></p>
-        <P><input class="btn btn-primary" type=submit value=Buy></p>
-    </form>
-    <br />
-    <br />
-    <a href="/">Home</a>
-
+    <div class="col-sm-4">
+        <h3>Enter a stock ticker and # of shares</h3>
+        <p>Example tickers: F, CMG, AAPL, DIS, GS, XOM</p>
+        <form method="post" class="form-inline">
+             <div class="form-group">
+            <input class="form-control" type=text name=ticker placeholder="stock symbol">
+            <input class="form-control" type=number name=shares placeholder="# shares">
+            <input class="btn btn-primary" type=submit value=Buy>
+            </div>
+        </form>
     </div>
 
     <div class="col-sm-4"></div>
 
-    </div>
+</div>
 
 {% endblock %}

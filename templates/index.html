@@ -1,26 +1,64 @@
- {% extends "layout.html" %} {% block title %} Index {% endblock %} {% block content %}
+ {% extends "layout.html" %} 
+ 
+ {% block title %} Index {% endblock %} 
+
+ {% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
+
+ 
+ {% block content %} 
 <div class="jumbotron text-center">
-    <h1>You logged in!</h1>
+    <h1>Fun Money</h1>
+    <h3>Fantasy Stock Portfolios</h3>
 </div>
+<div class="col-sm-4"></div>
 <div class="row">
-    <div class="col-sm-4"></div>
     <div class="col-sm-4">
-        <p>Buenos dias, {{current_user.username}}</p>
-        <p>You have ${{current_user.cash}} in cold, hard, poorly-formatted cash.</p>
-        <br />
-        <ul>
-         {% for stock in my_portfolio %}
-         <li>User ID: {{stock.user_id}}. Stock Name: {{stock.stock_name}}. Stock Ticker: {{stock.stock_ticker}}. Shares: {{stock.shares}}.</li>
-        {% endfor %}
-        </ul>
-        <a href="/buy">Buy stock</a>
-        <br />
-        <a href="/sell">Sell stock</a>
-        <br />
-        <br />
-        <a href="/logout">Log out</a>
-        <br />
+            <h2 class="text-center">{{current_user.username}}'s Assets</h2>
+        <table class="table table-bordered text-center">
+            <tr>
+                <td><strong>Total Cash</strong></td>
+                <td><strong>Total Stock Value</strong></td>
+                <td><strong>Total Value</strong></td>
+            </tr>
+            <tr>
+                <td>{{"${:,.2f}".format(current_user.cash)}}</td>
+                <td>{{"${:,.2f}".format(stock_total)}}</td>
+                <td>{{"${:,.2f}".format(current_user.cash + stock_total)}}</td>
+            </tr>
+        </table>
+        </div>
+        <div class="col-sm-4"></div>
+</div>
+<br />
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+
+        {% if my_portfolio %}
+        <h2 class="text-center">Stock Portfolio</h2>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Stock</th>
+                <th>Ticker</th>
+                <th>Shares</th>
+                <th>Share Price</th>
+                <th>Total Value</th>
+            </tr>
+            {% for stock in my_portfolio %}
+            <tr>
+                <td>{{stock.stock_name}}</td>
+                <td>{{stock.stock_ticker}}</td>
+                <td>{{stock.shares}}</td>
+                <td>{{"${:,.2f}".format(stock.price)}}</td>
+                <td>{{"${:,.2f}".format(stock.price * stock.shares)}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+
     </div>
-    <div class="col-sm-4"></div>
+    <div class="col-sm-3"></div>
 </div>
 {% endblock %}
