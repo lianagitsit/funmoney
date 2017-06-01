@@ -243,7 +243,45 @@ def buy():
 
 @app.route('/sell')
 def sell():
-    return render_template('sell.html')
+     # check request method - if post:
+    if request.method == 'POST':
+        # ensure ticker and shares filled in
+        ticker = request.form['ticker'].upper()
+        shares = request.form['shares']
+
+        if not ticker:
+            apology = "stock ticker required"
+            return render_template('apology.html', apology=apology)
+        if not shares:
+            apology = "number of shares required"
+            return render_template('apology.html', apology=apology)
+        
+        # calculate proposed trans value       
+        buyquote = get_quote(ticker)
+        cost = buyquote["price"] * int(shares)
+ 
+        # ensure user owns stock and owns ENOUGH stock to sell
+        mystock = Portfolio.query.filter_by(user_id=user.id).filter_by(stock_ticker=ticker).first()
+        # stock not in portfolio, render apology
+        if mystock is None:
+            apology = "you do not own this stock"
+            return render_template('apology.html', apology=apology)
+        # stock in portfolio, update entry
+        else:
+            mystock.shares -= int(shares)
+            db.session.add(mystock)
+            db.session.commit()
+
+        # subtract shares from Portfolio
+            # if total shares = 0, remove stock from Portfolio
+        # add to cash value in Users
+        # add negative trans to Transactions
+        # return portfolio
+        return redirect(url_for('index'))
+    
+    # if method = get:
+    if request.method == 'GET':
+        return render_template('sell.html')
 
 @app.route('/history')
 def history():
