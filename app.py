@@ -109,6 +109,18 @@ class Transactions(db.Model):
     def __repr__(self):
         return '<User: %r>' % self.user_id
 
+@app.route('/admin')
+def admin():
+    # Return an error if not logged in
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    if session['username'] == 'admin':
+        users = Users.query.all()
+        portfolio = Portfolio.query.all()
+        transactions = Transactions.query.all() 
+        return render_template('admin.html', users=users, portfolio=portfolio, transactions=transactions)
+    return redirect(url_for('index'))
+
 @app.route('/')
 def index():
     if 'username' in session:

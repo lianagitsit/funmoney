@@ -129,7 +129,9 @@ To establish a remote session witgh the DB:
 
 heroku pg:psql
 
-The ultimate copy shenanigan:
+=====
+
+The ultimate copy shenanigan: Run as a normal command line command
 
 PGUSER=postgres PGPASSWORD=password heroku pg:push funmoney postgresql-closed-41978 --app funmoney
 
