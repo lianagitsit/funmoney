@@ -377,7 +377,7 @@ def leaderboard():
     # copy users to list of dictionaries
     for user in users:
         user_dict_list.append(user.__dict__)
-    print(user_dict_list)
+    # print(user_dict_list)
     # loop through users
     for user in user_dict_list:
         # get this user's portfolio
@@ -389,7 +389,8 @@ def leaderboard():
         # add (cash + portfolio value) as a key-value pair to this user's dict
         user["assets"] = my_cash + stock_total
     # render template with user's list of dictionaries
-    return render_template('leaderboard.html', users=users)
+    sorted_user_dict_list = sorted(user_dict_list, key=lambda user: user["assets"], reverse=True)
+    return render_template('leaderboard.html', users=sorted_user_dict_list)
 
 
 
@@ -399,4 +400,3 @@ def leaderboard():
 
         
         
-    return render_template('leaderboard.html', users=users)
