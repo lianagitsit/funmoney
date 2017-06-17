@@ -351,13 +351,13 @@ def history():
         return redirect(url_for('login'))
     current_user = Users.query.filter_by(username=escape(session['username'])).first()
     transactions = Transactions.query.filter_by(user_id=current_user.id).all()
-    trans_dict_list = []
-    for trans in transactions:
-            trans_dict_list.append(trans.__dict__)
-    for trans in trans_dict_list:
-            trans["price"] = get_quote(trans["stock_ticker"])["price"]
+    # trans_dict_list = []
+    # for trans in transactions:
+    #        trans_dict_list.append(trans.__dict__)
+    # for trans in trans_dict_list:
+    #        trans["price"] = get_quote(trans["stock_ticker"])["price"]
     # print(transactions)
-    return render_template('history.html', transactions=trans_dict_list)
+    return render_template('history.html', transactions=transactions)
 
 @app.route('/quote', methods=['GET', 'POST'])
 def quote():
