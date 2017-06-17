@@ -370,3 +370,33 @@ def quote():
         return render_template('quote.html', userquote=userquote)
     return render_template('quote.html', userquote=None)
 
+@app.route('/leaderboard')
+def leaderboard():
+    users = Users.query.all()
+    user_dict_list = []
+    # copy users to list of dictionaries
+    for user in users:
+        user_dict_list.append(user.__dict__)
+    print(user_dict_list)
+    # loop through users
+    for user in user_dict_list:
+        # get this user's portfolio
+        my_portfolio = Portfolio.query.filter_by(user_id=user['id'])
+        # get this user's cash
+        my_cash = user['cash']
+        # get the value of this user's portfolio
+        stock_total = get_stock_total(my_portfolio)
+        # add (cash + portfolio value) as a key-value pair to this user's dict
+        user["assets"] = my_cash + stock_total
+    # render template with user's list of dictionaries
+    return render_template('leaderboard.html', users=users)
+
+
+
+
+
+
+
+        
+        
+    return render_template('leaderboard.html', users=users)
