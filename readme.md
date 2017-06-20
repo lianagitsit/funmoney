@@ -1,3 +1,11 @@
+# FunMoney
+
+Visit the app live at: https://funmoney.herokuapp.com/
+
+
+
+# Helpful tips for development: 
+
 ==========Startup Instructions==========
 
 > To start virtual environment:

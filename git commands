@@ -16,4 +16,12 @@ git fetch upstream
 
 git pull upstream master
 
+=========put stuff on Heroku=========
 
+(3) Push to heroku
+
+git add *
+
+git commit -m "version to deploy to heroku"
+
+git push heroku master
