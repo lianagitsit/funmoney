@@ -1,3 +1,11 @@
+# FunMoney
+
+Visit the app live at: https://funmoney.herokuapp.com/
+
+
+
+# Helpful tips for development: 
+
 ==========Startup Instructions==========
 
 > To start virtual environment:
@@ -129,7 +137,9 @@ To establish a remote session witgh the DB:
 
 heroku pg:psql
 
-The ultimate copy shenanigan:
+=====
+
+The ultimate copy shenanigan: Run as a normal command line command
 
 PGUSER=postgres PGPASSWORD=password heroku pg:push funmoney postgresql-closed-41978 --app funmoney
 

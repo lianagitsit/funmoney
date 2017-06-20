@@ -5,29 +5,51 @@
 import quandl
 import json
 
-
-with open('tickers.json') as data_file:
-    tickers = json.load(data_file)
-
 quandl.ApiConfig.api_key = "1KpUKQyWwNyxFK1Er6pq"
 
+
+with open('spfive.json') as data_file:
+    big_stock_list = json.load(data_file)
+
+# Delete any rows for stocks that aren't in the quandl database
+# This is an embarassing hack please don't tell my mother
+
+# for stock in big_stock_list:
+#    data = quandl.get_table('WIKI/PRICES', ticker=stock["Ticker"], qopts={'columns': ['close']}, date = { 'gt': '2017-06-14'})
+#     if (len(data) == 0):
+#        big_stock_list.remove(stock)
+
+# end hack
+
+
+
+
 def get_quote(ticker):
+    # prepare dummy data to return if there's an error
+    error_quote = {}
+    error_quote["ticker"] = "ERR404"
+    error_quote["name"] = "Stock Quote Error"
+    error_quote["price"] = 0
+    # Try to find and return a quote
     ticker = ticker.upper()
     stock_name = None
-    for stock in tickers:
-        if stock["Ticker"] == ticker:
+    for stock in big_stock_list:
+        if stock["Symbol"] == ticker:
             stock_name = stock["Name"] 
     if (stock_name == None):
-        return None
+        return error_quote
     # Retrieve the most recent stock quote data in the table
-    data = quandl.get_table('WIKI/PRICES', ticker=ticker, qopts={'columns': ['close']}, date = { 'gt': '2017-05-20'})
+    data = quandl.get_table('WIKI/PRICES', ticker=ticker, qopts={'columns': ['close']}, date = { 'gt': '2017-06-14'})
     # print(len(data))
     if (len(data) == 0):
-        return None
-    print(data["close"][len(data) - 1])
+        return error_quote
+    # print(data["close"][len(data) - 1])
     stock_quote = {}
     stock_quote["ticker"] = ticker
     stock_quote["name"] = stock_name
     stock_quote["price"] = data["close"][len(data) - 1]
     return stock_quote
+
+def get_stock_list():
+    return big_stock_list
 

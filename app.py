@@ -11,6 +11,7 @@ import helperfunctions
 
 # Save the module in a more friendly way for later use
 get_quote = helperfunctions.get_quote
+get_stock_list = helperfunctions.get_stock_list
 
 # print("-------------Begin Quote Testing-------------")
 # test_quote = get_quote("AAPL")
@@ -108,6 +109,18 @@ class Transactions(db.Model):
     # TODO: why is this here?
     def __repr__(self):
         return '<User: %r>' % self.user_id
+
+@app.route('/admin')
+def admin():
+    # Return an error if not logged in
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    if session['username'] == 'admin':
+        users = Users.query.all()
+        portfolio = Portfolio.query.all()
+        transactions = Transactions.query.all() 
+        return render_template('admin.html', users=users, portfolio=portfolio, transactions=transactions)
+    return redirect(url_for('index'))
 
 @app.route('/')
 def index():
@@ -263,7 +276,8 @@ def buy():
         # return index
         return redirect(url_for('index'))
     # if method = get:
-    return render_template('buy.html')
+    stock_list = get_stock_list()
+    return render_template('buy.html', stock_list=stock_list)
 
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
@@ -339,22 +353,53 @@ def history():
         return redirect(url_for('login'))
     current_user = Users.query.filter_by(username=escape(session['username'])).first()
     transactions = Transactions.query.filter_by(user_id=current_user.id).all()
-    trans_dict_list = []
-    for trans in transactions:
-            trans_dict_list.append(trans.__dict__)
-    for trans in trans_dict_list:
-            trans["price"] = get_quote(trans["stock_ticker"])["price"]
+    # trans_dict_list = []
+    # for trans in transactions:
+    #        trans_dict_list.append(trans.__dict__)
+    # for trans in trans_dict_list:
+    #        trans["price"] = get_quote(trans["stock_ticker"])["price"]
     # print(transactions)
-    return render_template('history.html', transactions=trans_dict_list)
+    return render_template('history.html', transactions=transactions)
 
 @app.route('/quote', methods=['GET', 'POST'])
 def quote():
     # Return an error if not logged in
     if 'username' not in session:
         return redirect(url_for('login'))
+    stock_list = get_stock_list()
     if request.method == 'POST':
         userticker = request.form['ticker']
         userquote = get_quote(userticker)
-        return render_template('quote.html', userquote=userquote)
-    return render_template('quote.html', userquote=None)
+        return render_template('quote.html', userquote=userquote, stock_list=stock_list)
+    return render_template('quote.html', userquote=None, stock_list=stock_list)
 
+@app.route('/leaderboard')
+def leaderboard():
+    users = Users.query.all()
+    user_dict_list = []
+    # copy users to list of dictionaries
+    for user in users:
+        user_dict_list.append(user.__dict__)
+    # print(user_dict_list)
+    # loop through users
+    for user in user_dict_list:
+        # get this user's portfolio
+        my_portfolio = Portfolio.query.filter_by(user_id=user['id'])
+        # get this user's cash
+        my_cash = user['cash']
+        # get the value of this user's portfolio
+        stock_total = get_stock_total(my_portfolio)
+        # add (cash + portfolio value) as a key-value pair to this user's dict
+        user["assets"] = my_cash + stock_total
+    # render template with user's list of dictionaries
+    sorted_user_dict_list = sorted(user_dict_list, key=lambda user: user["assets"], reverse=True)
+    return render_template('leaderboard.html', users=sorted_user_dict_list)
+
+
+
+
+
+
+
+        
+        

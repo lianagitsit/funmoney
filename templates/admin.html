@@ -1,0 +1,114 @@
+{% extends "layout.html" %} 
+ 
+{% block title %} Secret Administration Panel {% endblock %} 
+
+{% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
+
+
+{% block content %}
+
+
+<div class="jumbotron text-center">
+    <h1>Master Database History History</h1>
+</div>
+<!-- Users -->
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+
+        {% if users %}
+        <h2 class="text-center">Users</h2>
+
+        <table class="table table-striped">
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Cash</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td>(a long hash)</td>
+                <td>{{user.cash}}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+
+    </div>
+    <div class="col-sm-3"></div>
+    </div>
+
+<!-- Portfolio holding -->
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+
+        {% if portfolio %}
+        <h2 class="text-center">All Portfolio Holdings</h2>
+
+        <table class="table table-striped">
+            <tr>
+                <th>User ID</th>
+                <th>Stock</th>
+                <th>Ticker</th>
+                <th>Shares</th>
+            </tr>
+            {% for stock in portfolio %}
+            <tr>
+                <td>{{stock.user_id}}</td>
+                <td>{{stock.stock_name}}</td>
+                <td>{{stock.stock_ticker}}</td>
+                <td>{{stock.shares}}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+
+    </div>
+     <div class="col-sm-3"></div>
+    </div>
+
+<!-- Transactions -->
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+            {% if transactions %}
+        <h2 class="text-center">All Transactions</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>User ID</th>
+                <th>Stock</th>
+                <th>Ticker</th>
+                <th>Shares</th>
+                <th>Share Price</th>
+                <th>Total Value</th>
+                <th>Transaction Date</th>
+            </tr>
+            {% for trans in transactions %}
+            <tr>
+                <td>{{trans.user_id}}</td>
+                <td>{{trans.stock_name}}</td>
+                <td>{{trans.stock_ticker}}</td>
+                <td>{{trans.shares}}</td>
+                <td>{{"${:,.2f}".format(trans.price)}}</td>
+                <td>{{"${:,.2f}".format(trans.price * trans.shares|abs())}}</td>
+                <td>{{trans.timestamp.month}}/{{trans.timestamp.day}}/{{trans.timestamp.year}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+      
+        {% else %}
+        <br />
+        <h3 class="text-center">No stock transactions yet. Go buy some stocks!</h3>
+        <br / >{% endif %}
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+{% endblock %}
