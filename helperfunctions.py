@@ -25,18 +25,24 @@ with open('spfive.json') as data_file:
 
 
 def get_quote(ticker):
+    # prepare dummy data to return if there's an error
+    error_quote = {}
+    error_quote["ticker"] = "ERR404"
+    error_quote["name"] = "Stock Quote Error"
+    error_quote["price"] = 0
+    # Try to find and return a quote
     ticker = ticker.upper()
     stock_name = None
     for stock in big_stock_list:
         if stock["Symbol"] == ticker:
             stock_name = stock["Name"] 
     if (stock_name == None):
-        return None
+        return error_quote
     # Retrieve the most recent stock quote data in the table
     data = quandl.get_table('WIKI/PRICES', ticker=ticker, qopts={'columns': ['close']}, date = { 'gt': '2017-06-14'})
     # print(len(data))
     if (len(data) == 0):
-        return None
+        return error_quote
     # print(data["close"][len(data) - 1])
     stock_quote = {}
     stock_quote["ticker"] = ticker
