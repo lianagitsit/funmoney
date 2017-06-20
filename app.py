@@ -11,6 +11,7 @@ import helperfunctions
 
 # Save the module in a more friendly way for later use
 get_quote = helperfunctions.get_quote
+get_stock_list = helperfunctions.get_stock_list
 
 # print("-------------Begin Quote Testing-------------")
 # test_quote = get_quote("AAPL")
@@ -275,7 +276,8 @@ def buy():
         # return index
         return redirect(url_for('index'))
     # if method = get:
-    return render_template('buy.html')
+    stock_list = get_stock_list()
+    return render_template('buy.html', stock_list=stock_list)
 
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
@@ -364,11 +366,12 @@ def quote():
     # Return an error if not logged in
     if 'username' not in session:
         return redirect(url_for('login'))
+    stock_list = get_stock_list()
     if request.method == 'POST':
         userticker = request.form['ticker']
         userquote = get_quote(userticker)
-        return render_template('quote.html', userquote=userquote)
-    return render_template('quote.html', userquote=None)
+        return render_template('quote.html', userquote=userquote, stock_list=stock_list)
+    return render_template('quote.html', userquote=None, stock_list=stock_list)
 
 @app.route('/leaderboard')
 def leaderboard():

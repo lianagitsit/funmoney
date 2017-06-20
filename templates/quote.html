@@ -1,46 +1,62 @@
-{% extends "layout.html" %}
-
-{% block title %} 
-    Stock Quote
-{% endblock %}
-
-{% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %}
-
-{% block content %}
-    <div class="jumbotron text-center">
-        <h1>Get a Quote</h1>
-    </div>
+{% extends "layout.html" %} {% block title %} Stock Quote {% endblock %} {% block logoutbutton %}
+<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} {% block
+content %}
+<div class="jumbotron text-center">
+    <h1>Get a Quote</h1>
+</div>
 
 <div class="row">
     <div class="col-sm-4"></div>
     <div class="col-sm-4 text-center">
         <p>Example stock tickers: F, CMG, AAPL, DIS, GS, XOM</p>
         <br />
-    <form method="post" class="form-inline">
-        <div class="form-group">
-        <input class="form-control" type=text name=ticker placeholder="Enter a stock ticker">
-        <input class="btn btn-primary" type=submit value=Submit>
-        </div>
-    </form>
-    <br />
-    <br />
-    <table class="table text-center">
-        <tr>
-            <td><strong>Stock</strong></td>
-            <td><strong>Symbol</strong></td>
-            <td><strong>Quote</strong></td>            
-        </tr>
-        {% if userquote %}
-         <tr>
-             <td>{{userquote.name}}</td>
-             <td>{{userquote.ticker}}</td>
-             <td>{{"${:,.2f}".format(userquote.price)}}</td>
-        </tr>
-        {% endif %}
-    </table>
-    </div> <!-- end middle content column -->
+        <form method="post" class="form-inline">
+            <div class="form-group">
+                <input class="form-control" type=text name=ticker placeholder="Enter a stock ticker">
+                <input class="btn btn-primary" type=submit value=Submit>
+            </div>
+        </form>
+        <br />
+        <br />
+        <table class="table text-center">
+            <tr>
+                <td><strong>Stock</strong></td>
+                <td><strong>Symbol</strong></td>
+                <td><strong>Quote</strong></td>
+            </tr>
+            {% if userquote %}
+            <tr>
+                <td>{{userquote.name}}</td>
+                <td>{{userquote.ticker}}</td>
+                <td>{{"${:,.2f}".format(userquote.price)}}</td>
+            </tr>
+            {% endif %}
+        </table>
+        <br />
+        <h2 class="text-center">Available Stocks</h2>
+
+        <table class="table table-striped text-left">
+            <tr>
+                <th>Company Name</th>
+                <th>Ticker</th>
+            </tr>
+            {% for stock in stock_list %}
+            <tr>
+                <td>{{stock.Name}}</td>
+                <td>{{stock.Symbol}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+    <!-- end middle content column -->
 
     <div class="col-sm-4"></div>
 
-    </div>
+</div>
+
+
+
+
+
 {% endblock %}
