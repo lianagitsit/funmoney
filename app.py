@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, redirect, url_for, session, escape, request
+from flask import Flask, render_template, redirect, url_for, session, escape, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import datetime
@@ -109,6 +109,12 @@ class Transactions(db.Model):
     # TODO: why is this here?
     def __repr__(self):
         return '<User: %r>' % self.user_id
+
+@app.route('/jsonquote/<string:ticker>', methods=['GET'])
+def jsonquote(ticker):
+    ticker = ticker.upper()
+    return jsonify(get_quote(ticker))
+
 
 @app.route('/admin')
 def admin():
@@ -367,6 +373,7 @@ def quote():
     if 'username' not in session:
         return redirect(url_for('login'))
     stock_list = get_stock_list()
+    # POST route is deprecated - app now only does AJAX quotes. 
     if request.method == 'POST':
         userticker = request.form['ticker']
         userquote = get_quote(userticker)

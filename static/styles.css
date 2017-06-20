@@ -3,6 +3,9 @@ body {
 }
 
 .jumbotron {
-    color: #1f3a00
+    color: #1f3a00;
+}
 
+.redimportant {
+    color: red !important;
 }
