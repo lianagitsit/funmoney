@@ -4,6 +4,7 @@
  {% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
 
  {% block content %}
+
 <div class="jumbotron text-center">
     <h1>Buy Stocks</h1>
 </div>
@@ -32,6 +33,17 @@
 
     <div class="col-sm-4">
         <h2 class="text-center">Available Stocks</h2>
+
+        <p>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            A
+        </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-block">
+                test
+            </div>
+        </div>
 
         <table class="table table-striped">
             <tr>
