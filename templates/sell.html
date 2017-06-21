@@ -1,31 +1,77 @@
+ {% extends "layout.html" %}
+ 
+ {% block title %} Sell Stocks {% endblock %}
 
-{% extends "layout.html" %}
+ {% block headlinks %} 
 
-{% block title %} 
-    Sell Stocks
-{% endblock %}
+<script src="static/javascript/sell.js?version=1"></script>
 
- {% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
+{% endblock %} 
+ 
+ 
+ {% block logoutbutton %}
 
+<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li>
+{% endblock %} 
 
 {% block content %}
-    <div class="jumbotron text-center"><h1>Sell Stocks</h1></div>
+<div class="jumbotron text-center">
+    <h1>Sell Stocks</h1>
+</div>
 
-    <div class="row">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4">
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
 
-    <form method="post">
-        <p><input class="form-control" type=text name=ticker placeholder="stock symbol"></p>
-        <p><input class="form-control" type=number name=shares placeholder="# shares"></p>
-        <P><input class="btn btn-primary" type=submit value=Sell></p>
 
-    </form>
+        <h2 class="text-center">Your portfolio</h2>
+        {% if my_portfolio %}
+        
+
+        <table class="table table-striped">
+            <tr>
+                <th>Stock</th>
+                <th>Ticker</th>
+                <th>Shares</th>
+                <th>Share Price</th>
+                <th>Total Value</th>
+            </tr>
+            {% for stock in my_portfolio %}
+            <tr>
+                <td>{{stock.stock_name}}</td>
+                <td>{{stock.stock_ticker}}</td>
+                <td>{{stock.shares}}</td>
+                <td>{{"${:,.2f}".format(stock.price)}}</td>
+                <td>{{"${:,.2f}".format(stock.price * stock.shares)}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        <br />
+        <h3 class="text-center">Choose a stock to sell</h3>
+
+
+        <form method="post" class="form-inline text-center">
+            <p><input class="form-control" type=text name=ticker placeholder="stock symbol" id="sellticker">
+            <input class="form-control" type=number name=shares placeholder="# shares" id="sellshares">
+            <br />
+            <p id="transtitle">Transaction Value:</p>
+            <p><strong><span id="transvalue">--</span></strong></p>
+            <br />
+            <p class="text-center"><input class="btn btn-primary" disabled=disabled type=submit value=Sell id="sellbutton"></p>
+
+        </form>
+
+        {% else %}
+        <br />
+        <p class="text-center">You don't own any stocks to sell!</p>
+
+        {% endif %}
 
     </div>
 
     <div class="col-sm-4"></div>
 
-    </div>
+</div>
 
 {% endblock %}
