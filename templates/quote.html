@@ -1,22 +1,43 @@
-{% extends "layout.html" %} {% block title %} Stock Quote {% endblock %} {% block logoutbutton %}
-<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} {% block
-content %}
+{% extends "layout.html" %} 
+
+{% block title %}
+
+Stock Quote
+
+{% endblock %} 
+
+{% block headlinks %} 
+
+<script src="static/javascript/quote.js?version=9"></script>
+
+{% endblock %} 
+
+{% block logoutbutton %}
+<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> 
+{% endblock %} 
+
+{% block content %}
+
 <div class="jumbotron text-center">
-    <h1>Get a Quote</h1>
+    <h1 id="jumbotitle">Get a Quote</h1>
 </div>
 
 <div class="row">
     <div class="col-sm-4"></div>
     <div class="col-sm-4 text-center">
         <p>Example stock tickers: F, CMG, AAPL, DIS, GS, XOM</p>
+        
         <br />
         <form method="post" class="form-inline">
             <div class="form-group">
-                <input class="form-control" type=text name=ticker placeholder="Enter a stock ticker">
-                <input class="btn btn-primary" type=submit value=Submit>
+                <input id="tickerbox" class="form-control" type=text name=ticker value="" placeholder="Stock Ticker">
+                <!-- old form <input class="btn btn-primary" type=submit value=Submit> -->
+                <input id="submitbutton" class="btn btn-primary" type=submit value="Get Quote">
             </div>
         </form>
+        
         <br />
+        <div id="error" class="hidden alert alert-danger"><p><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Incorrect ticker. Or a server problem. An error either way!</p></div>
         <br />
         <table class="table text-center">
             <tr>
@@ -24,17 +45,19 @@ content %}
                 <td><strong>Symbol</strong></td>
                 <td><strong>Quote</strong></td>
             </tr>
-            {% if userquote %}
+            
             <tr>
-                <td>{{userquote.name}}</td>
-                <td>{{userquote.ticker}}</td>
-                <td>{{"${:,.2f}".format(userquote.price)}}</td>
+                <!-- placeholder if statements for non-javascript implementation of the quote feature-->
+                <td id="stockname">{% if userquote %}{{userquote.name}}{% endif %}</td>
+                <td id="stockticker">{% if userquote %}{{userquote.ticker}}{% endif %}</td>
+                <td id="stockprice">{% if userquote %}{{"${:,.2f}".format(userquote.price)}}{% endif %}</td>
             </tr>
-            {% endif %}
+            
         </table>
+        
         <br />
         <h2 class="text-center">Available Stocks</h2>
-
+        <p>Roughly all stocks in the S&amp;P500</p>
         <table class="table table-striped text-left">
             <tr>
                 <th>Company Name</th>
