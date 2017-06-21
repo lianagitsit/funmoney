@@ -1,9 +1,6 @@
- {% extends "layout.html" %} 
- {% block title %} Buy Stock {% endblock %} 
-
- {% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
-
- {% block content %}
+ {% extends "layout.html" %} {% block title %} Buy Stock {% endblock %} {% block logoutbutton %}
+<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} {% block
+content %}
 
 <div class="jumbotron text-center">
     <h1>Buy Stocks</h1>
@@ -16,11 +13,11 @@
         <h3>Enter a stock ticker and # of shares</h3>
         <p>Example tickers: F, CMG, AAPL, DIS, GS, XOM</p>
         <form method="post">
-        
+
             <p><input class="form-control" type=text name=ticker placeholder="stock symbol"></p>
             <p><input class="form-control" type=number name=shares placeholder="# shares"></p>
             <p><input class="btn btn-primary" type=submit value=Buy></p>
-            
+
         </form>
     </div>
 
@@ -28,41 +25,387 @@
 
 </div>
 
-<div class="row">
-    <div class="col-sm-4"></div>
+{% set letters_A = ["A"] %} {% set letters_BC = ["B", "C"] %} {% set letters_DE = ["D", "E"] %} {% set letters_FG = ["F",
+"G"] %} {% set letters_HI = ["H", "I"] %} {% set letters_JK = ["J", "K"] %} {% set letters_LM = ["L", "M"] %} {% set letters_NO
+= ["N", "O"] %} {% set letters_PQR = ["P", "Q", "R"] %} {% set letters_ST = ["S", "T"] %} {% set letters_UVW = ["U", "V",
+"W"] %} {% set letters_XYZ = ["X", "Y", "Z"] %}
 
-    <div class="col-sm-4">
+<div class="row">
+    <div class="col-sm-3"></div>
+
+    <div class="col-sm-6">
         <h2 class="text-center">Available Stocks</h2>
 
         <p class="text-center">Roughly all stocks in the S&amp;P500</p>
 
-        <p>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            A
-        </button>
-        </p>
-        <div class="collapse" id="collapseExample">
-            <div class="card card-block">
-                test
+        <!-- begin top links -->
+        <div class="text-center">
+            <div class="btn-group" role="group" aria-label="...">
+
+                <button type="button" class="btn btn-default custom" data-toggle="collapse" data-parent="#accordion" data-target="#collapseA" aria-expanded="true" aria-controls="collapseA">0-A</button>
+
+                <button type="button" class="btn btn-default custom" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseBC" aria-expanded="false"
+                    aria-controls="collapseBC">BC</button>
+
+                <button type="button" class="btn btn-default custom" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseDE" aria-expanded="false"
+                    aria-controls="collapseDE">DE</button>
+
+                <button type="button" class="btn btn-default custom" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFG" aria-expanded="false"
+                    aria-controls="collapseFG">FG</button>
+                
+                <button type="button" class="btn btn-default custom" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseHI" aria-expanded="false"
+                    aria-controls="collapseHI">HI</button>
+                
+                <button type="button" class="btn btn-default custom" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseJK" aria-expanded="false"
+                    aria-controls="collapseJK">JK</button>
+            
+                <button type="button" class="btn btn-default custom" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseLM" aria-expanded="false"
+                    aria-controls="collapseLM">LM</button>
+                
+                <button type="button" class="btn btn-default custom" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseNO" aria-expanded="false"
+                    aria-controls="collapseNO">NO</button>
+                
+                <button type="button" class="btn btn-default custom" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapsePQR" aria-expanded="false"
+                    aria-controls="collapsePQR">PQR</button>
+
+                <button type="button" class="btn btn-default custom" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseST" aria-expanded="false"
+                    aria-controls="collapseST">ST</button>
+                
+                <button type="button" class="btn btn-default custom" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseUVW" aria-expanded="false"
+                    aria-controls="collapseUVW">UVW</button>
+                
+                <button type="button" class="btn btn-default custom" class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseXYZ" aria-expanded="false"
+                    aria-controls="collapseXYZ">XYZ</button>
+            
             </div>
         </div>
-      
-        <table class="table table-striped">
-            <tr>
-                <th>Company Name</th>
-                <th>Ticker</th>
-            </tr>
-            {% for stock in stock_list %}
-            <tr>
-                <td>{{stock.Name}}</td>
-                <td>{{stock.Symbol}}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <br />
+
+        <!-- End top links -->
+
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+            <div class="panel panel-default">
+                <div id="collapseA" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingA">
+                    <div class="panel-body">
+                        {% set numbers_list = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] %}
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in numbers_list %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% elif stock.Name[0] in letters_A %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div id="collapseBC" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingBC">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in letters_BC %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div id="collapseDE" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDE">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in letters_DE %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div id="collapseFG" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFG">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in letters_FG %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div id="collapseHI" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingHI">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in letters_HI %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div id="collapseJK" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingJK">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in letters_JK %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div id="collapseLM" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingLM">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in letters_LM %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div id="collapseNO" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNO">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in letters_NO %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div id="collapsePQR" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPQR">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in letters_PQR %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div id="collapseST" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingST">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in letters_ST %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div id="collapseUVW" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingUVW">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in letters_UVW %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div id="collapseXYZ" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingXYZ">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Ticker</th>
+                            </tr>
+                            {% for stock in stock_list %}
+                            <tr>
+                                {% if stock.Name[0] in letters_XYZ %}
+                                <td>{{stock.Name}}</td>
+                                <td>{{stock.Symbol}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- end large panel accordion group -->
+
+        <!-- <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapseA" data-parent="#accordion" aria-expanded="false" 
+                aria-controls="collapseA">0 - A</button>
+            <button type="button" class="btn btn-default collapsed" data-toggle="collapse" data-target="#collapseBC" data-parent="#accordion" aria-expanded="false" 
+                aria-controls="collapseBC">B - C</button>
+            <button type="button" class="btn btn-default collapsed" data-toggle="collapse" data-target="#collapseDE" data-parent="#accordion" aria-expanded="false"
+                aria-controls="collapseDE">D - E</button>
+        </div>
+
+        
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-collapse collapse in" id="collapseA" role="tabpanel">
+                    <div class="panel-body">
+                        <div class="card card-block">
+                            {% set numbers_list = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] %}
+
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Company Name</th>
+                                    <th>Ticker</th>
+                                </tr>
+                                {% for stock in stock_list %}
+                                <tr>
+                                    {% if stock.Name[0] in numbers_list %}
+                                    <td>{{stock.Name}}</td>
+                                    <td>{{stock.Symbol}}</td>
+                                    {% elif stock.Name[0] in letters_A %}
+                                    <td>{{stock.Name}}</td>
+                                    <td>{{stock.Symbol}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="panel-collapse collapse" id="collapseBC" role="tabpanel">
+                        <div class="card card-block">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Company Name</th>
+                                    <th>Ticker</th>
+                                </tr>
+                                {% for stock in stock_list %}
+                                <tr>
+                                    {% if stock.Name[0] in letters_BC %}
+                                    <td>{{stock.Name}}</td>
+                                    <td>{{stock.Symbol}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+
+        </div> end accordion div -->
+
 
     </div>
 
-    <div class="col-sm-4"></div>
+    <div class="col-sm-3"></div>
 
 </div>
 

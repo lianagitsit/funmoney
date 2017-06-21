@@ -9,3 +9,8 @@ body {
 .redimportant {
     color: red !important;
 }
+
+.custom {
+    width: 45px !important;
+    padding: 1px !important;
+}
