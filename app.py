@@ -115,13 +115,18 @@ def jsonquote(ticker):
     ticker = ticker.upper()
     return jsonify(get_quote(ticker))
 
+@app.route('/coltest')
+def coltest():
+    return render_template('coltest.html')
+
+
 
 @app.route('/admin')
 def admin():
     # Return an error if not logged in
     if 'username' not in session:
         return redirect(url_for('login'))
-    if session['username'] == 'admin':
+    if session['username'] == 'admin' or session['username'] == 'Eric' or session['username'] == 'liana':
         users = Users.query.all()
         portfolio = Portfolio.query.all()
         transactions = Transactions.query.all() 
@@ -242,6 +247,11 @@ def buy():
         if not shares:
             apology = "number of shares required"
             return render_template('apology.html', apology=apology)
+
+        # You can't buy negative shares
+        if int(shares) <= 0:
+            apology = "you can't buy less than one share"
+            return render_template('apology.html', apology=apology)
         
         # calculate proposed trans value
         buyquote = get_quote(ticker)
@@ -283,7 +293,9 @@ def buy():
         return redirect(url_for('index'))
     # if method = get:
     stock_list = get_stock_list()
-    return render_template('buy.html', stock_list=stock_list)
+    # get user's cash
+    user = Users.query.filter_by(username=session['username']).first()
+    return render_template('buy.html', stock_list=stock_list, mycash=user.cash)
 
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
@@ -322,6 +334,13 @@ def sell():
         if int(shares) > mystock.shares:
             apology = "you don't own enough shares to sell"
             return render_template('apology.html', apology=apology)
+        
+        # shares entered negative
+        if int(shares) <= 0:
+            apology = "you must sell at least one share"
+            return render_template('apology.html', apology=apology)
+
+
     
         # stock in portfolio, update entry
         else:
@@ -349,7 +368,17 @@ def sell():
 
     # if method = get:
     if request.method == 'GET':
-        return render_template('sell.html')
+        # Get all of the user's stocks
+        current_user = Users.query.filter_by(username=session['username']).first()
+        my_portfolio = Portfolio.query.filter_by(user_id=current_user.id)
+        portfolio_dict_list = []
+        # Get current share prices and values for all of user's stocks
+        for stock in my_portfolio:
+            portfolio_dict_list.append(stock.__dict__)
+        for stock in portfolio_dict_list:
+            stock["price"] = get_quote(stock["stock_ticker"])["price"]
+        # stock_total = get_stock_total(my_portfolio)
+        return render_template('sell.html', current_user=current_user, my_portfolio=portfolio_dict_list)
 
 
 @app.route('/history')
@@ -382,6 +411,9 @@ def quote():
 
 @app.route('/leaderboard')
 def leaderboard():
+    # Return an error if not logged in
+    if 'username' not in session:
+        return redirect(url_for('login'))
     users = Users.query.all()
     user_dict_list = []
     # copy users to list of dictionaries

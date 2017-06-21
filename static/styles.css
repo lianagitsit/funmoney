@@ -11,6 +11,11 @@ body {
 }
 
 .custom {
-    width: 45px !important;
+    width: 8% !important;
+    min-width: 34px !important;
     padding: 1px !important;
+}
+
+.btnbar {
+    width: 100% !important;
 }
