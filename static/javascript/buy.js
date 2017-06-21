@@ -17,10 +17,21 @@ $( document ).ready(function() {
 
 function total() {
     var spinner = '<i class="fa fa-spinner fa-spin"></i>';
+    $('#sname').html(spinner);
+    $('#sticker').html(spinner);
+    $('#sprice').html(spinner);
     $('#transvalue').html(spinner);
-    if ($('#buyticker').val() === "" || $('#buyshares').val() == "") {
-        //console.log("exiting total!");
-        return;
+
+    // console.log($('#buyshares').val())
+    if ($('#buyshares').val() != "") {
+        sharesentered = $('#buyshares').val();
+        // console.log(sharesentered)
+        $('#numshares').html(sharesentered);
+    }
+    else { $('#numshares').html(spinner); }
+
+    if ($('#buyticker').val() === "") {
+        return;                
     }
 
     // prepare the URL for the API call
@@ -33,6 +44,14 @@ function total() {
                 console.log("Got an error asking for a price");
                  return;
             }
+            // Add the quote info:
+            $('#sname').html(data.name);
+            $('#sticker').html(data.ticker);
+            $('#sprice').html(data.price);
+
+            // leave if no shares entered
+            if ($('#buyshares').val() === "") { return }
+
             //console.log("Got a quote!");
             //console.log(data);
             // Since we got a quote, render tx value

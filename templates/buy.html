@@ -1,6 +1,21 @@
- {% extends "layout.html" %} {% block title %} Buy Stock {% endblock %} {% block logoutbutton %}
-<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} {% block
-content %}
+ {% extends "layout.html" %} 
+ 
+ {% block title %} Buy Stock {% endblock %} .
+
+  {% block headlinks %} 
+
+<script src="static/javascript/buy.js?version=6"></script>
+
+{% endblock %} 
+ 
+ {% block logoutbutton %}
+<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li>
+
+{% endblock %} 
+
+
+
+{% block content %}
 
 <div class="jumbotron text-center">
     <h1>Buy Stocks</h1>
@@ -10,13 +25,33 @@ content %}
     <div class="col-sm-4"></div>
 
     <div class="col-sm-4">
-        <h3>Enter a stock ticker and # of shares</h3>
-        <p>Example tickers: F, CMG, AAPL, DIS, GS, XOM</p>
-        <form method="post">
+        <h3 class="text-center">Cash Available: {{"${:,.2f}".format(mycash)}}</h3>
+        <br />
+        <h4 class="text-center">Enter a stock ticker and # of shares</h4>
+        <p class="text-center">Example tickers: F, CMG, AAPL, DIS, GS, XOM</p>
+        <form method="post" class="form-inline text-center">
 
-            <p><input class="form-control" type=text name=ticker placeholder="stock symbol"></p>
-            <p><input class="form-control" type=number name=shares placeholder="# shares"></p>
-            <p><input class="btn btn-primary" type=submit value=Buy></p>
+            <p><input class="form-control" type=text name=ticker placeholder="stock ticker" id="buyticker">
+            <input class="form-control" type=number name=shares placeholder="# shares" id="buyshares"></p>
+            <br />
+            <table class="table table-bordered text-center">
+                <tr>
+                    <td><strong>Stock</strong></td>
+                    <td><strong>Ticker</strong></td>
+                    <td><strong>Share Price</strong></td>
+                    <td><strong># Shares</strong></td>
+                    <td><strong>Transaction Value</strong></td>
+                </tr>
+                <tr>
+                    <td><span id="sname">--</span></td>
+                    <td><span id="sticker">--</span></td>
+                    <td><span id="sprice">--</span></td>
+                    <td><span id="numshares">--</span></td>
+                    <td><span id="transvalue">--</span></td>
+                </tr>
+            </table>
+            <br />
+            <p class="text-center"><input class="btn btn-primary" disabled=disabled type=submit value=Buy id="buybutton"></p>
 
         </form>
     </div>
@@ -34,13 +69,11 @@ content %}
     <div class="col-sm-3"></div>
 
     <div class="col-sm-6">
-        <h2 class="text-center">Available Stocks</h2>
-
-        <p class="text-center">Roughly all stocks in the S&amp;P500</p>
+        <h2 class="text-center">Available S&amp;P 500 Stocks</h2>
 
         <!-- begin top links -->
         <div class="text-center">
-            <div class="btn-group" role="group" aria-label="...">
+            <div class="btn-group btnbar text-center" role="group" aria-label="...">
 
                 <button type="button" class="btn btn-default custom" data-toggle="collapse" data-parent="#accordion" data-target="#collapseA" aria-expanded="true" aria-controls="collapseA">0-A</button>
 

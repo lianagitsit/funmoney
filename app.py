@@ -126,7 +126,7 @@ def admin():
     # Return an error if not logged in
     if 'username' not in session:
         return redirect(url_for('login'))
-    if session['username'] == 'admin':
+    if session['username'] == 'admin' or session['username'] == 'Eric' or session['username'] == 'liana':
         users = Users.query.all()
         portfolio = Portfolio.query.all()
         transactions = Transactions.query.all() 
@@ -293,7 +293,9 @@ def buy():
         return redirect(url_for('index'))
     # if method = get:
     stock_list = get_stock_list()
-    return render_template('buy.html', stock_list=stock_list)
+    # get user's cash
+    user = Users.query.filter_by(username=session['username']).first()
+    return render_template('buy.html', stock_list=stock_list, mycash=user.cash)
 
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():

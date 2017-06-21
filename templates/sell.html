@@ -1,8 +1,8 @@
- {% extends "layout.html" %}
+{% extends "layout.html" %}
  
- {% block title %} Sell Stocks {% endblock %}
+{% block title %} Sell Stocks {% endblock %}
 
- {% block headlinks %} 
+{% block headlinks %} 
 
 <script src="static/javascript/sell.js?version=1"></script>
 
@@ -23,7 +23,8 @@
     <div class="col-sm-4"></div>
     <div class="col-sm-4">
 
-
+        <h2 class="text-center">Cash: {{"${:,.2f}".format(current_user.cash)}}</h2>
+        <br />
         <h2 class="text-center">Your portfolio</h2>
         {% if my_portfolio %}
         
