@@ -377,65 +377,6 @@
         </div>
         <!-- end large panel accordion group -->
 
-        <!-- <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapseA" data-parent="#accordion" aria-expanded="false" 
-                aria-controls="collapseA">0 - A</button>
-            <button type="button" class="btn btn-default collapsed" data-toggle="collapse" data-target="#collapseBC" data-parent="#accordion" aria-expanded="false" 
-                aria-controls="collapseBC">B - C</button>
-            <button type="button" class="btn btn-default collapsed" data-toggle="collapse" data-target="#collapseDE" data-parent="#accordion" aria-expanded="false"
-                aria-controls="collapseDE">D - E</button>
-        </div>
-
-        
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-                <div class="panel-collapse collapse in" id="collapseA" role="tabpanel">
-                    <div class="panel-body">
-                        <div class="card card-block">
-                            {% set numbers_list = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] %}
-
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>Company Name</th>
-                                    <th>Ticker</th>
-                                </tr>
-                                {% for stock in stock_list %}
-                                <tr>
-                                    {% if stock.Name[0] in numbers_list %}
-                                    <td>{{stock.Name}}</td>
-                                    <td>{{stock.Symbol}}</td>
-                                    {% elif stock.Name[0] in letters_A %}
-                                    <td>{{stock.Name}}</td>
-                                    <td>{{stock.Symbol}}</td>
-                                    {% endif %}
-                                </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="panel-collapse collapse" id="collapseBC" role="tabpanel">
-                        <div class="card card-block">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>Company Name</th>
-                                    <th>Ticker</th>
-                                </tr>
-                                {% for stock in stock_list %}
-                                <tr>
-                                    {% if stock.Name[0] in letters_BC %}
-                                    <td>{{stock.Name}}</td>
-                                    <td>{{stock.Symbol}}</td>
-                                    {% endif %}
-                                </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-
-        </div> end accordion div -->
-
-
     </div>
 
     <div class="col-sm-3"></div>

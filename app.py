@@ -121,17 +121,35 @@ def coltest():
 
 
 
-@app.route('/admin')
+@app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    # Return an error if not logged in
-    if 'username' not in session:
-        return redirect(url_for('login'))
-    if session['username'] == 'admin' or session['username'] == 'Eric' or session['username'] == 'liana':
+    if request.method == 'GET':
+        # Return an error if not logged in
+        if 'username' not in session:
+            return redirect(url_for('login'))
+        if session['username'] == 'admin' or session['username'] == 'Eric' or session['username'] == 'liana':
+            users = Users.query.all()
+            portfolio = Portfolio.query.all()
+            transactions = Transactions.query.all() 
+            return render_template('admin.html', users=users, portfolio=portfolio, transactions=transactions)
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
         users = Users.query.all()
         portfolio = Portfolio.query.all()
         transactions = Transactions.query.all() 
+        delete_user = request.form['delete']
+        print(delete_user)
+
+        for user in users:
+            if user.username == delete_user:
+                print("user is in users")
+                deaduser = Users.query.filter_by(id=user.id).first()
+                db.session.delete(deaduser)
+                db.session.commit()
+                users = Users.query.all()
+
         return render_template('admin.html', users=users, portfolio=portfolio, transactions=transactions)
-    return redirect(url_for('index'))
 
 @app.route('/')
 def index():
