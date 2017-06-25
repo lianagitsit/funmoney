@@ -21,10 +21,10 @@
 
         <table class="table table-striped">
             <tr>
-                <th>User ID</th>
-                <th>Username</th>
-                <th>Password</th>
-                <th>Cash</th>
+                <th>id</th>
+                <th>username</th>
+                <th>password</th>
+                <th>cash</th>
             </tr>
             {% for user in users %}
             <tr>
@@ -59,13 +59,15 @@
 
         <table class="table table-striped">
             <tr>
-                <th>User ID</th>
-                <th>Stock</th>
-                <th>Ticker</th>
-                <th>Shares</th>
+                <th>id</th>
+                <th>user_id</th>
+                <th>stock_name</th>
+                <th>stock_ticker</th>
+                <th>shares</th>
             </tr>
             {% for stock in portfolio %}
             <tr>
+                <td>{{stock.id}}</td>
                 <td>{{stock.user_id}}</td>
                 <td>{{stock.stock_name}}</td>
                 <td>{{stock.stock_ticker}}</td>
@@ -89,16 +91,18 @@
         <h2 class="text-center">All Transactions</h2>
         <table class="table table-striped">
             <tr>
-                <th>User ID</th>
-                <th>Stock</th>
-                <th>Ticker</th>
-                <th>Shares</th>
-                <th>Share Price</th>
-                <th>Total Value</th>
-                <th>Transaction Date</th>
+                <th>id</th>
+                <th>user_id</th>
+                <th>stock_name</th>
+                <th>stock_ticker</th>
+                <th>shares</th>
+                <th>price</th>
+                <th>total</th>
+                <th>date</th>
             </tr>
             {% for trans in transactions %}
             <tr>
+                <td>{{trans.id}}</td>
                 <td>{{trans.user_id}}</td>
                 <td>{{trans.stock_name}}</td>
                 <td>{{trans.stock_ticker}}</td>

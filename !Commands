@@ -1,0 +1,67 @@
+==========Commit Personal Changes==========
+
+git add *
+
+git commit -m "commit msg"
+
+git push -u origin master
+
+==========Liana gets updates from the main repo after accepting a pull request online==========
+
+git pull
+
+=========Eric gets updates for his fork that Liana has pushed to the main repo==========
+
+git fetch upstream
+
+git pull upstream master
+
+=========put stuff on Heroku=========
+
+(3) Push to heroku
+
+git add *
+
+git commit -m "version to deploy to heroku"
+
+git push heroku master
+
+==========Startup Instructions==========
+
+> To start virtual environment:
+
+. venv/bin/activate
+
+> To start flask in debug mode:
+
+export FLASK_APP=app.py 
+
+export FLASK_DEBUG=1 
+
+flask run
+
+> To exit:
+
+venv deactivate
+
+==========Database Sorcery==========
+
+(execute these commands in the commands line)
+
+Copy local DB to cloud:
+
+PGUSER=postgres PGPASSWORD=password heroku pg:push funmoney postgresql-closed-41978 --app funmoney
+
+Copy cloud DB to local (NOTE: Must delete local DB first):
+
+* Commands to delete local DB: 
+ 
+sudo -i -u postgres psql
+
+DROP DATABASE funmoney;
+
+\q
+
+* Command to copy the DB: 
+
+PGUSER=postgres PGPASSWORD=password heroku pg:pull postgresql-closed-41978 funmoney --app funmoney

@@ -127,6 +127,7 @@ def admin():
         # Return an error if not logged in
         if 'username' not in session:
             return redirect(url_for('login'))
+        # Only admin accounts can log in
         if session['username'] == 'admin' or session['username'] == 'Eric' or session['username'] == 'liana':
             users = Users.query.all()
             portfolio = Portfolio.query.all()
@@ -137,19 +138,35 @@ def admin():
     if request.method == 'POST':
         users = Users.query.all()
         portfolio = Portfolio.query.all()
-        transactions = Transactions.query.all() 
+        transactions = Transactions.query.all()
         delete_user = request.form['delete']
-        print(delete_user)
+        # print(delete_user)
 
         for user in users:
-            if user.username == delete_user:
-                print("user is in users")
+            # Error if username doesn't match a user
+            if user.username == delete_user:      
+                # Delete the user from all relevant tables:
                 deaduser = Users.query.filter_by(id=user.id).first()
+                deadstocks = Portfolio.query.filter_by(user_id=deaduser.id).all()
+                deadtrans = Transactions.query.filter_by(user_id=deaduser.id).all()
+                for stock in deadstocks:
+                    db.session.delete(stock)
+                for trans in deadtrans:
+                    db.session.delete(trans)          
                 db.session.delete(deaduser)
                 db.session.commit()
-                users = Users.query.all()
 
-        return render_template('admin.html', users=users, portfolio=portfolio, transactions=transactions)
+                # re-render the template after deleting
+                users = Users.query.all()
+                portfolio = Portfolio.query.all()
+                transactions = Transactions.query.all()
+                return render_template('admin.html', users=users, portfolio=portfolio, transactions=transactions)
+        
+        # If we made it throguh the loop with no match, render an apology
+        apology = "no such user found"
+        return render_template('apology.html', apology=apology)
+
+        
 
 @app.route('/')
 def index():
