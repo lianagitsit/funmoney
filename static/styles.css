@@ -1,9 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Bree+Serif');
+@import url('https://fonts.googleapis.com/css?family=PT+Mono');
+@import url('https://fonts.googleapis.com/css?family=Oxygen: 400,700');
+
 body {
     background-color: white;
+    font-family: 'Oxygen', sans-serif !important;
 }
 
 .jumbotron {
     color: #1f3a00;
+    font-family: 'PT Mono', monospace;
 }
 
 .redimportant {
