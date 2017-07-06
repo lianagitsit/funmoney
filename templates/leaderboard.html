@@ -1,9 +1,11 @@
 {% extends "layout.html" %} 
- 
+
 {% block title %} Leaderboard {% endblock %} 
 
-{% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
+{% block logoutbutton %}
+<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> 
 
+{% endblock %} 
 
 {% block content %}
 
@@ -11,22 +13,30 @@
 <div class="jumbotron text-center">
     <h1>Leaderboard</h1>
 </div>
-<div class="col-sm-4"></div>
+
+
+
 <div class="row">
+
+    <div class="col-sm-4"></div>
+
     <div class="col-sm-4">
         <table class="table table-striped text-center">
             <tr>
                 <th class="text-center">User</th>
-                <th class="text-center">Portfolio Value</th>
+                <th class="text-center">Portfolio Value (cash + stock)</th>
             </tr>
             {% for user in users %}
             <tr>
                 <td>{{user.username}}</td>
-                <td>{{"${:,.2f}".format(user.assets)}}</td>            
+                <td>{{"${:,.2f}".format(user.assets)}}</td>
             </tr>
             {% endfor %}
-        </table>      
+        </table>
     </div>
-    <div class="col-sm-3"></div>
+
+    <div class="col-sm-4"></div>
+
 </div>
+
 {% endblock %}

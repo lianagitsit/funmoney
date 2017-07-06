@@ -1,9 +1,11 @@
 {% extends "layout.html" %} 
- 
+
 {% block title %} Secret Administration Panel {% endblock %} 
 
-{% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
+{% block logoutbutton %}
+<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> 
 
+{% endblock %} 
 
 {% block content %}
 
@@ -11,7 +13,8 @@
 <div class="jumbotron text-center">
     <h1>Master Database View</h1>
 </div>
-<!-- Users -->
+
+<!-- Users table -->
 <div class="row">
     <div class="col-sm-3"></div>
     <div class="col-sm-6">
@@ -31,12 +34,13 @@
                 <td>{{user.id}}</td>
                 <td>{{user.username}}</td>
                 <td>(a long hash)</td>
-                <td>{{user.cash}}</td>
+                <td>{{"${:,.2f}".format(user.cash)}}</td>
 
             </tr>
             {% endfor %}
         </table>
 
+        <!-- form to delete users and related transactions from all databases -->
         <form method="post" class="form-inline text-center">
             <p><input class="form-control text-center" type=text name=delete placeholder="delete user" id="deleteuser">
                 <input class="btn btn-primary" type=submit value=Delete id="deletebutton"></p>
@@ -47,9 +51,9 @@
 
     </div>
     <div class="col-sm-3"></div>
-    </div>
+</div>
 
-<!-- Portfolio holding -->
+<!-- Portfolio holdings table for all users -->
 <div class="row">
     <div class="col-sm-3"></div>
     <div class="col-sm-6">
@@ -80,14 +84,14 @@
 
 
     </div>
-     <div class="col-sm-3"></div>
-    </div>
+    <div class="col-sm-3"></div>
+</div>
 
-<!-- Transactions -->
+<!-- Transactions table for all users-->
 <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-            {% if transactions %}
+        {% if transactions %}
         <h2 class="text-center">All Transactions</h2>
         <table class="table table-striped">
             <tr>
@@ -113,11 +117,11 @@
             </tr>
             {% endfor %}
         </table>
-      
+
         {% else %}
         <br />
         <h3 class="text-center">No stock transactions yet. Go buy some stocks!</h3>
-        <br / >{% endif %}
+        <br />{% endif %}
     </div>
     <div class="col-sm-2"></div>
 </div>

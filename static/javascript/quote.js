@@ -1,5 +1,6 @@
 // quote.js
 // javascript for handling AJAX requests on the quote page
+// DEPRECATED - quote page no longer used, only buy page
 
 $( document ).ready(function() {
 

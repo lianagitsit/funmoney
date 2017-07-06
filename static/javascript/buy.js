@@ -1,13 +1,16 @@
 // buy.js
 // javascript for handling AJAX on the buy page
 
-$( document ).ready(function() {
+$(document).ready(function() {
     // console.log("linked!");
+
+    // listen for keyup events in the share and ticker boxes
+    // then check to see if a stock quote can be displayed
+    // or a total calculated 
     $('#buyticker').keyup(function(event) {
         //console.log($(this).val());
         total();
     });
-
     $('#buyshares').keyup(function(event) {
         //console.log($(this).val());
         total();
@@ -24,7 +27,7 @@ function total() {
 
     // console.log($('#buyshares').val())
     if ($('#buyshares').val() != "") {
-        sharesentered = $('#buyshares').val();
+        var sharesentered = $('#buyshares').val();
         // console.log(sharesentered)
         $('#numshares').html(sharesentered);
     }
@@ -41,7 +44,7 @@ function total() {
     $.get(api_url, function(data, status){
             // If price is 0, an error object was returned, abort
             if (data.price === 0) {
-                console.log("Got an error asking for a price");
+                //console.log("Got an error asking for a price");
                  return;
             }
             // Add the quote info:
@@ -66,7 +69,6 @@ function total() {
     
 }
 
-// TODO: Use imports or something here, duplicated javascript! Bad! D.R.Y. more!
 // currency format function adapted from https://blog.tompawlak.org/number-currency-formatting-javascript
 function currencyFormat (num) {
     return "$" + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")

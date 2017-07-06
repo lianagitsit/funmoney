@@ -1,19 +1,26 @@
- {% extends "layout.html" %} 
+{% extends "layout.html" %} 
  
- {% block title %} Index {% endblock %} 
-
- {% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
-
+{% block title %} Portfolio {% endblock %} 
  
- {% block content %} 
+{% block logoutbutton %}
+
+<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> 
+
+{% endblock %} 
+
+{% block content %}
+
+
 <div class="jumbotron text-center">
     <h1>Fun Money</h1>
     <h3>Fantasy Stock Portfolios</h3>
 </div>
+
 <div class="col-sm-4"></div>
+
 <div class="row">
     <div class="col-sm-4">
-            <h2 class="text-center">{{current_user.username}}'s Assets</h2>
+        <h2 class="text-center">{{current_user.username}}'s Assets</h2>
         <table class="table table-bordered text-center">
             <tr>
                 <td><strong>Total Cash</strong></td>
@@ -26,9 +33,9 @@
                 <td>{{"${:,.2f}".format(current_user.cash + stock_total)}}</td>
             </tr>
         </table>
-        </div>
-        
-        <div class="col-sm-4"></div>
+    </div>
+
+    <div class="col-sm-4"></div>
 </div>
 <br />
 <div class="row">

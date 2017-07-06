@@ -1,3 +1,5 @@
+/* import fonts from google fonts */
+
 @import url('https://fonts.googleapis.com/css?family=Bree+Serif');
 @import url('https://fonts.googleapis.com/css?family=PT+Mono');
 @import url('https://fonts.googleapis.com/css?family=Oxygen: 400,700');
@@ -24,4 +26,11 @@ body {
 
 .btnbar {
     width: 100% !important;
+}
+
+/* disable number toggle to make javascript work - from css-tricks.com */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }

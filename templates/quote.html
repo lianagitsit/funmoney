@@ -1,10 +1,20 @@
-{% extends "layout.html" %} {% block title %} Stock Quote {% endblock %} {% block headlinks %}
+<!-- OLD PAGE/DEPRECATED: features duplicated on buy.html, so these are old and uncommented and not linked on the main app-->
+
+{% extends "layout.html" %} 
+
+{% block title %} Stock Quote {% endblock %} 
+
+{% block headlinks %}
 
 <script src="static/javascript/quote.js?version=9"></script>
 
-{% endblock %} {% block logoutbutton %}
+{% endblock %} 
+
+{% block logoutbutton %}
 <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li>
-{% endblock %} {% block content %}
+{% endblock %} 
+
+{% block content %}
 
 <div class="jumbotron text-center">
     <h1 id="jumbotitle">Get a Quote</h1>
@@ -37,7 +47,7 @@
                 <td><strong>Quote</strong></td>
             </tr>
 
-            <tr> 
+            <tr>
                 <!-- placeholder if statements for non-javascript implementation of the quote feature-->
                 <td id="stockname">{% if userquote %}{{userquote.name}}{% endif %}</td>
                 <td id="stockticker">{% if userquote %}{{userquote.ticker}}{% endif %}</td>

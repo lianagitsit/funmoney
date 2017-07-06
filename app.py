@@ -5,22 +5,12 @@ import os
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# ---Start of Eric Work---
 # import the quote and other helper functions
 import helperfunctions
 
 # Save the module in a more friendly way for later use
 get_quote = helperfunctions.get_quote
 get_stock_list = helperfunctions.get_stock_list
-
-# print("-------------Begin Quote Testing-------------")
-# test_quote = get_quote("AAPL")
-# if (test_quote):
-#     print (test_quote)
-# else:
-#     print("Failed to retrieve a quote")
-# print("-------End of Quote Testing-------------")
-# ---End of Eric Work---
 
 # Secret key used for sessions
 
@@ -37,8 +27,6 @@ app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 # %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://lianamancini:n0w a butterfly*@localhost/yournewdb'
-
 # If running locally, use local DB. If running on heroku, use its DB.
 if (os.environ.get('DATABASE_URL') is None):
     # print("Heyo! No database URL!")
@@ -52,8 +40,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 app.secret_key = 'A0Za98j/3yX R~XHH!jmN]LWX/,?RT'
 
-#TODO: Move database schema classes into a separate .py file
-
 class Users(db.Model):
     __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True)
@@ -66,7 +52,6 @@ class Users(db.Model):
         self.password = password
         self.cash = 10000
 
-    # TODO: why is this here?
     def __repr__(self):
         return '<User: %r>' % self.username
 
@@ -84,7 +69,6 @@ class Portfolio(db.Model):
         self.stock_name = stock_name
         self.shares = shares
 
-    # TODO: why is this here?
     def __repr__(self):
         return '<User: %r>' % self.user_id
 
@@ -106,7 +90,6 @@ class Transactions(db.Model):
         self.shares = shares
         self.timestamp = datetime.utcnow()
 
-    # TODO: why is this here?
     def __repr__(self):
         return '<User: %r>' % self.user_id
 
@@ -114,12 +97,6 @@ class Transactions(db.Model):
 def jsonquote(ticker):
     ticker = ticker.upper()
     return jsonify(get_quote(ticker))
-
-@app.route('/coltest')
-def coltest():
-    return render_template('coltest.html')
-
-
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -134,7 +111,8 @@ def admin():
             transactions = Transactions.query.all() 
             return render_template('admin.html', users=users, portfolio=portfolio, transactions=transactions)
         return redirect(url_for('index'))
-
+    
+    # POST method for delete user feature
     if request.method == 'POST':
         users = Users.query.all()
         portfolio = Portfolio.query.all()
@@ -162,7 +140,7 @@ def admin():
                 transactions = Transactions.query.all()
                 return render_template('admin.html', users=users, portfolio=portfolio, transactions=transactions)
         
-        # If we made it throguh the loop with no match, render an apology
+        # If we made it through the loop with no match, render an apology
         apology = "no such user found"
         return render_template('apology.html', apology=apology)
 
@@ -189,7 +167,6 @@ def index():
 
 def get_stock_total(portfolio):
     total = 0
-    portfolio_dict_list = []
     # Get current share prices and values for all stocks
     for stock in portfolio:
         total += (stock.shares * get_quote(stock.stock_ticker)["price"])
@@ -224,10 +201,10 @@ def login():
         
             else:
                 session['username'] = username
-                print("logged in when you shouldn't have")
                 return redirect(url_for('index'))
 
-    return render_template('login.html')
+    if request.method == 'GET':
+        return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -326,11 +303,12 @@ def buy():
 
         # return index
         return redirect(url_for('index'))
-    # if method = get:
-    stock_list = get_stock_list()
-    # get user's cash
-    user = Users.query.filter_by(username=session['username']).first()
-    return render_template('buy.html', stock_list=stock_list, mycash=user.cash)
+  
+    if request.method == 'GET':
+        stock_list = get_stock_list()
+        # get user's cash
+        user = Users.query.filter_by(username=session['username']).first()
+        return render_template('buy.html', stock_list=stock_list, mycash=user.cash)
 
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
@@ -374,8 +352,6 @@ def sell():
         if int(shares) <= 0:
             apology = "you must sell at least one share"
             return render_template('apology.html', apology=apology)
-
-
     
         # stock in portfolio, update entry
         else:
@@ -415,7 +391,6 @@ def sell():
         # stock_total = get_stock_total(my_portfolio)
         return render_template('sell.html', current_user=current_user, my_portfolio=portfolio_dict_list)
 
-
 @app.route('/history')
 def history():
     # Return an error if not logged in
@@ -423,14 +398,9 @@ def history():
         return redirect(url_for('login'))
     current_user = Users.query.filter_by(username=escape(session['username'])).first()
     transactions = Transactions.query.filter_by(user_id=current_user.id).all()
-    # trans_dict_list = []
-    # for trans in transactions:
-    #        trans_dict_list.append(trans.__dict__)
-    # for trans in trans_dict_list:
-    #        trans["price"] = get_quote(trans["stock_ticker"])["price"]
-    # print(transactions)
     return render_template('history.html', transactions=transactions)
 
+# DEPRECATED - functionality duplicated in buy route
 @app.route('/quote', methods=['GET', 'POST'])
 def quote():
     # Return an error if not logged in
@@ -468,12 +438,3 @@ def leaderboard():
     # render template with user's list of dictionaries
     sorted_user_dict_list = sorted(user_dict_list, key=lambda user: user["assets"], reverse=True)
     return render_template('leaderboard.html', users=sorted_user_dict_list)
-
-
-
-
-
-
-
-        
-        
