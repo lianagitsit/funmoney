@@ -1,17 +1,61 @@
 /* import fonts from google fonts */
 
-@import url('https://fonts.googleapis.com/css?family=Bree+Serif');
-@import url('https://fonts.googleapis.com/css?family=PT+Mono');
+@import url('https://fonts.googleapis.com/css?family=Titan+One');
 @import url('https://fonts.googleapis.com/css?family=Oxygen: 400,700');
 
+/* abusing !important for bootstrap overrides */
 body {
     background-color: white;
     font-family: 'Oxygen', sans-serif !important;
 }
 
+.navbar {
+    background-color: darkgreen !important;
+    margin-bottom: 0px !important;
+
+}
+
+.navbartext {
+    color: white !important; 
+   font-size: 32px !important;
+    font-family: 'Titan One', monospace;
+    
+}
+
+a.navbarlink {
+    color: white !important;
+}
+
+a.navbarlink:hover {
+    color: lightgreen !important;
+}
+
 .jumbotron {
-    color: #1f3a00;
-    font-family: 'PT Mono', monospace;
+    color: rgb(255, 255, 255);
+    /* -webkit-text-stroke: 2px rgb(48, 9, 9); */
+    font-family: 'Titan One', monospace;
+    /* stock image from pexels.com */
+    background-image: url('chart.jpg') !important;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 0% 22%;
+    height: 300px;
+    margin-bottom: 0px;
+}
+
+.mainbg {
+    /* margin-top: -30px; */
+    background-image: url('citystreet.jpg') !important;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 600px;
+    padding-bottom: 0px;
+
+}
+
+#footer {
+    padding-top: 20px;
 }
 
 .redimportant {
