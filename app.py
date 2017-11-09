@@ -12,8 +12,6 @@ import helperfunctions
 get_quote = helperfunctions.get_quote
 get_stock_list = helperfunctions.get_stock_list
 
-# Secret key used for sessions
-
 POSTGRES = {
     'user': 'postgres',
     'pw': 'password',
@@ -38,6 +36,8 @@ else:
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+# Secret key used for sessions
 app.secret_key = 'A0Za98j/3yX R~XHH!jmN]LWX/,?RT'
 
 class Users(db.Model):

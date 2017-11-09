@@ -54,7 +54,13 @@ def get_quote(ticker):
     if (stock_name == None):
         return error_quote
     # Retrieve the most recent stock quote data in the table
-    data = quandl.get_table('WIKI/PRICES', ticker=ticker, qopts={'columns': ['close']}, date = { 'gt': '2017-06-14'})
+    # This is a little hacky because of how the quandl API works, it gets all data after the 25th of the prior month
+    # but only reads the most recent closing price
+    # TODO: Make this less hacky
+    date_query_string = get_quandl_date_string()
+    # print("Date query: ")
+    # print(date_query_string)
+    data = quandl.get_table('WIKI/PRICES', ticker=ticker, qopts={'columns': ['close']}, date = { 'gt': date_query_string})
     # If no useable data returned, return the error quote
     if (len(data) == 0):
         return error_quote
@@ -73,4 +79,28 @@ def get_quote(ticker):
 
 def get_stock_list():
     return big_stock_list
+
+# returns a string equivalent to the 25th day of the prior month for the API call
+def get_quandl_date_string():
+    this_year = datetime.datetime.now().year
+    this_month = datetime.datetime.now().month
+
+    # convert month into the correct string
+    if (this_month == 1):
+        return_month = "12"
+    elif (this_month < 11):
+        return_month = "0" + str(this_month - 1)
+    else:
+        return_month = str(this_month - 1)
+
+    # convert year into the correct string
+    if (this_month == 1):
+        return_year = str(this_year - 1)
+    else:
+        return_year = str(this_year)
+
+    return_string = return_year + "-" + return_month + "-25"
+    return return_string
+    
+
 
