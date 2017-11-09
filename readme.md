@@ -1,7 +1,9 @@
 # FunMoney
 
 
-A fantasy stock trading website based on the Finance problem set from CS50.
+A fantasy stock portfolio app. Inspired by the finance problem set from CS50, but coded from scratch.
+
+Pair programmed by Eric Mancini (https://github.com/eqmvii) & Liana Mancini (https://github.com/lianagitsit)
 
 
 Visit the app live at:
