@@ -1,15 +1,15 @@
- {% extends "layout.html" %} 
+{% extends "layout.html" %} 
  
- {% block title %} Buy Stock {% endblock %} .
+{% block title %} Buy Stock {% endblock %}
 
-  {% block headlinks %} 
+{% block headlinks %} 
 
 <script src="static/javascript/buy.js?version=6"></script>
 
 {% endblock %} 
  
  {% block logoutbutton %}
-<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li>
+<li><a href="/logout" class="navbarlink"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li>
 
 {% endblock %} 
 
@@ -60,6 +60,9 @@
 
 </div>
 
+<!-- begin browsable stock list: bootstrap accordion that lists stocks by alphabetical subgroups -->
+
+<!-- lists of letters for alphabetical subgroups of each accordion panel -->
 {% set letters_A = ["A"] %} {% set letters_BC = ["B", "C"] %} {% set letters_DE = ["D", "E"] %} {% set letters_FG = ["F",
 "G"] %} {% set letters_HI = ["H", "I"] %} {% set letters_JK = ["J", "K"] %} {% set letters_LM = ["L", "M"] %} {% set letters_NO
 = ["N", "O"] %} {% set letters_PQR = ["P", "Q", "R"] %} {% set letters_ST = ["S", "T"] %} {% set letters_UVW = ["U", "V",
@@ -71,7 +74,7 @@
     <div class="col-sm-6">
         <h2 class="text-center">Available S&amp;P 500 Stocks</h2>
 
-        <!-- begin top links -->
+        <!-- begin top links (as clickable buttons) -->
         <div class="text-center">
             <div class="btn-group btnbar text-center" role="group" aria-label="...">
 
@@ -117,6 +120,8 @@
         <!-- End top links -->
 
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+            <!-- loop through list of stocks and display based on clicked button -->
 
             <div class="panel panel-default">
                 <div id="collapseA" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingA">

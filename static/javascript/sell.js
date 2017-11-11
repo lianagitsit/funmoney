@@ -1,5 +1,6 @@
 // sell.js
 // javascript for handling AJAX on the sell page
+// Displays total transaction value before sell happens
 
 $( document ).ready(function() {
     // console.log("linked!");
@@ -30,7 +31,7 @@ function total() {
     $.get(api_url, function(data, status){
             // If price is 0, an error object was returned, abort
             if (data.price === 0) {
-                console.log("Got an error asking for a price");
+                // console.log("Got an error asking for a price");
                  return;
             }
             //console.log("Got a quote!");

@@ -1,20 +1,21 @@
 {% extends "layout.html" %} 
- 
+
 {% block title %} History {% endblock %} 
 
-{% block logoutbutton %}  <li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} 
+{% block logoutbutton %}
 
-
-{% block content %}
+<li><a href="/logout" class="navbarlink"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li> {% endblock %} {% block
+content %}
 
 
 <div class="jumbotron text-center">
     <h1>Transaction History</h1>
 </div>
+
 <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-                {% if transactions %}
+        {% if transactions %}
         <h2>Stock Transactions</h2>
         <table class="table table-striped">
             <tr>
@@ -36,11 +37,11 @@
             </tr>
             {% endfor %}
         </table>
-      
+
         {% else %}
         <br />
         <h3 class="text-center">No stock transactions yet. Go buy some stocks!</h3>
-        <br / >{% endif %}
+        <br />{% endif %}
     </div>
     <div class="col-sm-2"></div>
 </div>

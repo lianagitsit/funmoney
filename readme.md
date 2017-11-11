@@ -1,10 +1,19 @@
 # FunMoney
 
-Visit the app live at: https://funmoney.herokuapp.com/
+
+A fantasy stock portfolio app. Inspired by the finance problem set from CS50, but coded from scratch.
+
+Pair programmed by Eric Mancini (https://github.com/eqmvii) & Liana Mancini (https://github.com/lianagitsit)
+
+
+Visit the app live at:
+
+
+https://funmoney.herokuapp.com/
 
 
 
-# Helpful tips for development: 
+# Helpful tips for development / notes from working on the app
 
 ==========Startup Instructions==========
 
@@ -50,6 +59,8 @@ pip install psycopg2
 (0.7) Import DB to create all after running python
 
 (ensure virtual environment is started)
+
+(run python)
 
 from yourapplication import db
 

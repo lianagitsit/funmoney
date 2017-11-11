@@ -1,20 +1,20 @@
 {% extends "layout.html" %}
- 
+
 {% block title %} Sell Stocks {% endblock %}
 
-{% block headlinks %} 
+{% block headlinks %}
 
-<script src="static/javascript/sell.js?version=1"></script>
+<script src="static/javascript/sell.js?version=1.2"></script>
 
 {% endblock %} 
- 
- 
- {% block logoutbutton %}
 
-<li><a href="/logout"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li>
+{% block logoutbutton %}
+
+<li><a href="/logout" class="navbarlink"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Logout</a></li>
 {% endblock %} 
 
 {% block content %}
+
 <div class="jumbotron text-center">
     <h1>Sell Stocks</h1>
 </div>
@@ -27,7 +27,7 @@
         <br />
         <h2 class="text-center">Your portfolio</h2>
         {% if my_portfolio %}
-        
+
 
         <table class="table table-striped">
             <tr>
@@ -47,19 +47,19 @@
             </tr>
             {% endfor %}
         </table>
-        
+
         <br />
         <h3 class="text-center">Choose a stock to sell</h3>
 
 
         <form method="post" class="form-inline text-center">
             <p><input class="form-control" type=text name=ticker placeholder="stock symbol" id="sellticker">
-            <input class="form-control" type=number name=shares placeholder="# shares" id="sellshares">
-            <br />
-            <p id="transtitle">Transaction Value:</p>
-            <p><strong><span id="transvalue">--</span></strong></p>
-            <br />
-            <p class="text-center"><input class="btn btn-primary" disabled=disabled type=submit value=Sell id="sellbutton"></p>
+                <input class="form-control" type=number name=shares placeholder="# shares" id="sellshares">
+                <br />
+                <p id="transtitle">Transaction Value:</p>
+                <p><strong><span id="transvalue">--</span></strong></p>
+                <br />
+                <p class="text-center"><input class="btn btn-primary" disabled=disabled type=submit value=Sell id="sellbutton"></p>
 
         </form>
 
